@@ -6,11 +6,11 @@ import com.zee.zee5app.dto.Register;
 
 // repo. objects are used to call only repo methods 
 // can we do this using 1 object?
-public class UserRepository {
+public class UserRepository2 {
 	
 	private Register[] registers = new Register[10];
 	private static int count = -1;
-	private UserRepository() {
+	private UserRepository2() {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -65,11 +65,11 @@ public class UserRepository {
 		return "success";
 	}
 		
-	private static UserRepository userRepository;
+	private static UserRepository2 userRepository;
 	
-	public static UserRepository getInstance() {
+	public static UserRepository2 getInstance() {
 		if(userRepository==null)
-			userRepository = new UserRepository();
+			userRepository = new UserRepository2();
 		return userRepository;
 	}
 

@@ -2,20 +2,24 @@ package com.zee.zee5app;
 
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.Register;
-import com.zee.zee5app.movie_dto.movies;
-import com.zee.zee5app.movie_service.MovieService;
-import com.zee.zee5app.series_dto.series;
-import com.zee.zee5app.series_service.SeriesService;
+import com.zee.zee5app.dto.movies;
+import com.zee.zee5app.dto.series;
+import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.service.MovieService;
+import com.zee.zee5app.service.SeriesService;
+import com.zee.zee5app.service.SubscriptionService;
 import com.zee.zee5app.service.UserService;
-import com.zee.zee5app.subscription_dto.subscription;
-import com.zee.zee5app.subscription_service.SubscriptionService;
+import com.zee.zee5app.service.impl.MovieServiceImpl;
+import com.zee.zee5app.service.impl.SeriesServieImpl;
+import com.zee.zee5app.service.impl.SubscriptionServiceImpl;
+import com.zee.zee5app.service.impl.UserServiceImpl;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		// register : reference which will refer the ur obj
+		// register : reference which will refer the ur object
 		// Register () : constructor =>DC==>IDC
 		Register register = new Register();
 		subscription Subscription = new subscription();
@@ -42,11 +46,17 @@ public class Main {
 		
 		System.out.println(login);
 		
-		UserService service = UserService.getInstance();
-		MovieService movieService = MovieService.getInstance();
-		SeriesService seriesService = SeriesService.getInstance();
-		SubscriptionService subscriptionService = SubscriptionService.getInstance();
+//		UserService1 service = UserService1.getInstance();
+//		MovieService movieService = MovieService.getInstance();
+//		SeriesService seriesService = SeriesService.getInstance();
+//		SubscriptionService subscriptionService = SubscriptionService.getInstance();
 		// main consuming from service according to layered arch
+		
+		// using interface
+		UserService service = UserServiceImpl.getInstance();
+		MovieService movieService = MovieServiceImpl.getInstance();
+		SeriesService seriesService = SeriesServieImpl.getInstance();
+		SubscriptionService subscriptionService = SubscriptionServiceImpl.getInstance();
 	
 //		Register
 		
@@ -58,24 +68,27 @@ public class Main {
 			reg.setEmail("shri@g"+i);
 			reg.setPassword("123"+i);
 			res = service .addUser(reg);
-//			System.out.println(res);
+			System.out.println(res);
 		}
 		
+		System.out.println(service.getAllUsers());
 		Register reg2 = service.getUserById("shri002");
 		System.out.println(reg2!=null);
 		
 		res = service.updateUser("shri001", register);
 		System.out.println("update " + res);
-		
-		res = service.deleteUser("shri001");
+
+
+		res = service.deleteUserById("shri001");
 		System.out.println("delete " + res);
 		
-		for(Register reg3 : service.getUsers()){
+		for(Register reg3 : service.getAllUsers()){
 			if(reg3 != null)
 				System.out.println(reg3);
 //			System.out.println(reg3);
 		}
-		
+
+/*
 //		Subscription
 		
 		Subscription.setType("Annual");
@@ -116,7 +129,7 @@ public class Main {
 		Series.setLength(302.2f);
 		
 		res = seriesService .addSeries(Series);
-		System.out.println("series "+ res);
+		System.out.println("series "+ res); */
 		
 	}//end of main
 }//end of class

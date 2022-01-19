@@ -1,4 +1,4 @@
-package com.zee.zee5app.subscription_dto;
+package com.zee.zee5app.dto;
 
 import lombok.Data;
 
