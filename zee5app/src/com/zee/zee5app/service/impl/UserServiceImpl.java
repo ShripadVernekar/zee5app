@@ -20,7 +20,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public String addUser(Register register) {
-		// TODO Auto-generated method stub
 		return userRepoistory.addUser(register);
 	}
 

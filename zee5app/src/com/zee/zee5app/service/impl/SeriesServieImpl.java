@@ -18,7 +18,6 @@ public class SeriesServieImpl implements SeriesService {
 	SeriesRepoistory seriesRepoistory = SeriesRepositoryImpl.getInstance();
 	@Override
 	public String addSeries(series Series) {
-		// TODO Auto-generated method stub
 		return seriesRepoistory.addSeries(Series);
 	}
 

@@ -37,7 +37,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public String updateSubscription(String id, subscription Subscription) {
-		// TODO Auto-generated method stub
 		return subscriptionRepoistory.updateSubscription(id, Subscription);
 	}
 
