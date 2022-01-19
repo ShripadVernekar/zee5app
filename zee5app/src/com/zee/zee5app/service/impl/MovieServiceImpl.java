@@ -25,7 +25,6 @@ public class MovieServiceImpl implements MovieService {
 
 	@Override
 	public String updateMovie(String id, movies movie) {
-		// TODO Auto-generated method stub
 		return movieRepoistory.updateMovie(id, movie);
 	}
 

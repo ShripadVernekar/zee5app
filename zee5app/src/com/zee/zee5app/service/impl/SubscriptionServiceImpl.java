@@ -25,7 +25,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public subscription getSubscriptionById(String id) {
-		// TODO Auto-generated method stub
 		return subscriptionRepoistory.getSubscriptionById(id);
 	}
 
