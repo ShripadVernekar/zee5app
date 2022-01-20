@@ -1,10 +1,15 @@
 package com.zee.zee5app;
 
+import java.util.Optional;
+
+import javax.naming.InvalidNameException;
+
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.dto.movies;
 import com.zee.zee5app.dto.series;
 import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.service.MovieService;
 import com.zee.zee5app.service.SeriesService;
 import com.zee.zee5app.service.SubscriptionService;
@@ -28,11 +33,20 @@ public class Main {
 		
 		String res;
 		
-		register.setFirstName("Shripad");
-		register.setLastName("V");
+		
 		register.setEmail("shripad@gmail.com");
 		register.setPassword("abcd@123");
-		register.setId("s1");
+		try {
+			register.setId("shri100");
+			register.setFirstName("Shripad");
+			register.setLastName("Vernekar");
+		} catch (InvalidIdLengthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println(register);
 		System.out.println(register.toString()); 
@@ -62,9 +76,18 @@ public class Main {
 		
 		for (int i=0;i<12;i++) {
 			Register reg = new Register();
-			reg.setId("shri00"+i);
-			reg.setFirstName("shri"+i);
-			reg.setLastName("V"+i);
+			try {
+				reg.setId("shri00"+i);
+				reg.setFirstName("shri"+i);
+				reg.setLastName("V"+i);
+			} catch (InvalidIdLengthException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidNameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			reg.setEmail("shri@g"+i);
 			reg.setPassword("123"+i);
 			res = service .addUser(reg);
@@ -72,8 +95,8 @@ public class Main {
 		}
 		
 		System.out.println(service.getAllUsers());
-		Register reg2 = service.getUserById("shri002");
-		System.out.println(reg2!=null);
+//		Register reg2 = service.getUserById("shri002");
+//		System.out.println(reg2!=null);
 		
 		res = service.updateUser("shri001", register);
 		System.out.println("update " + res);
@@ -82,12 +105,27 @@ public class Main {
 		res = service.deleteUserById("shri001");
 		System.out.println("delete " + res);
 		
-		for(Register reg3 : service.getAllUsers()){
-			if(reg3 != null)
-				System.out.println(reg3);
-//			System.out.println(reg3);
-		}
+//		for(Register reg3 : service.getAllUsers()){
+//			if(reg3 != null)
+//				System.out.println(reg3);
+////			System.out.println(reg3);
+//		}
 
+		try {
+			Register reg1 = new Register("shri1100","shripad","Vernekar","Shri@gmail.com","shri1234");
+			System.out.println(reg1);
+		} catch (InvalidNameException | InvalidIdLengthException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Optional<Register> optional = service.getUserById("shri001");
+		if(optional.isPresent()) {
+			System.out.println("Got user by id "+ optional.get());
+		}else {
+			System.out.println("Id not found/available");
+		}
+		
 /*
 //		Subscription
 		

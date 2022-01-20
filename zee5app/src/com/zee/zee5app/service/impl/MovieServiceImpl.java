@@ -1,8 +1,10 @@
 package com.zee.zee5app.service.impl;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.movies;
 import com.zee.zee5app.repoistory.MovieRepoistory;
-import com.zee.zee5app.repository.impl.MovieRepositoryImpl;
+import com.zee.zee5app.repoistory.impl.MovieRepositoryImpl;
 import com.zee.zee5app.service.MovieService;
 
 public class MovieServiceImpl implements MovieService {
@@ -34,7 +36,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public movies getMovieById(String id) {
+	public Optional<movies> getMovieById(String id) {
 		// TODO Auto-generated method stub
 		return movieRepoistory.getMovieById(id);
 	}

@@ -1,8 +1,10 @@
 package com.zee.zee5app.service.impl;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.subscription;
 import com.zee.zee5app.repoistory.SubscriptionRepoistory;
-import com.zee.zee5app.repository.impl.SubscriptionRepoistoryImpl;
+import com.zee.zee5app.repoistory.impl.SubscriptionRepoistoryImpl;
 import com.zee.zee5app.service.SubscriptionService;
 
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -24,7 +26,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public subscription getSubscriptionById(String id) {
+	public Optional<subscription> getSubscriptionById(String id) {
 		return subscriptionRepoistory.getSubscriptionById(id);
 	}
 

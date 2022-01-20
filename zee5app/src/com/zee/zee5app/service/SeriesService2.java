@@ -1,11 +1,11 @@
 package com.zee.zee5app.service;
 
 import com.zee.zee5app.dto.series;
-import com.zee.zee5app.repoistory.SeriesRepoistory;
+import com.zee.zee5app.repoistory.SeriesRepoistory2;
 
 public class SeriesService2 {
 
-		private SeriesRepoistory repository = SeriesRepoistory.getInstance();
+		private SeriesRepoistory2 repository = SeriesRepoistory2.getInstance();
 		
 		private SeriesService2() {
 			

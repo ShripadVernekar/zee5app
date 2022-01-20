@@ -1,8 +1,10 @@
 package com.zee.zee5app.service.impl;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.series;
 import com.zee.zee5app.repoistory.SeriesRepoistory;
-import com.zee.zee5app.repository.impl.SeriesRepositoryImpl;
+import com.zee.zee5app.repoistory.impl.SeriesRepositoryImpl;
 import com.zee.zee5app.service.SeriesService;
 
 public class SeriesServieImpl implements SeriesService {
@@ -34,7 +36,7 @@ public class SeriesServieImpl implements SeriesService {
 	}
 
 	@Override
-	public series getSeriesById(String id) {
+	public Optional<series> getSeriesById(String id) {
 		// TODO Auto-generated method stub
 		return seriesRepoistory.getSeriesById(id);
 	}

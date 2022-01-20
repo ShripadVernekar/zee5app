@@ -1,11 +1,11 @@
 package com.zee.zee5app.service;
 
 import com.zee.zee5app.dto.movies;
-import com.zee.zee5app.repoistory.MovieRepoistory;
+import com.zee.zee5app.repoistory.MovieRepoistory2;
 
 public class MovieService2 {
 	
-	private MovieRepoistory repository = MovieRepoistory.getInstance();
+	private MovieRepoistory2 repository = MovieRepoistory2.getInstance();
 	
 	private MovieService2() {
 		

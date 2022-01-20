@@ -1,5 +1,7 @@
 package com.zee.zee5app.repoistory;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.subscription;
 
 public interface SubscriptionRepoistory {
@@ -11,7 +13,7 @@ public interface SubscriptionRepoistory {
 	public String deleteSubscription(String id);
 	
 	//get Subscription details based on id's
-	public subscription getSubscriptionById(String id);
+	public Optional<subscription> getSubscriptionById(String id);
 	
 	// to return all Subscription details
 	public subscription[] getAllSubscription();

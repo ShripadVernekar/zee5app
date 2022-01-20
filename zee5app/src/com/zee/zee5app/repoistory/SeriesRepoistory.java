@@ -1,5 +1,7 @@
 package com.zee.zee5app.repoistory;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.series;
 
 public interface SeriesRepoistory {
@@ -11,7 +13,7 @@ public interface SeriesRepoistory {
 	public String deleteSeries(String id);
 	
 	//get Series details based on id's
-	public series getSeriesById(String id);
+	public Optional<series> getSeriesById(String id);
 	// to return all series details
 	public series[] getAllSeries();
 	

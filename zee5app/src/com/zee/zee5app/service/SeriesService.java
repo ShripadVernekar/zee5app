@@ -1,5 +1,7 @@
 package com.zee.zee5app.service;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.series;
 
 public interface SeriesService {
@@ -10,7 +12,7 @@ public interface SeriesService {
 		
 		public String deleteSeries(String id);
 		
-		public series getSeriesById(String id);
+		public Optional<series> getSeriesById(String id);
 		
 		public series[] getAllSeries();
 }

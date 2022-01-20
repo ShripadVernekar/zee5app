@@ -1,5 +1,7 @@
 package com.zee.zee5app.repoistory;
 
+import java.util.Optional;
+
 import com.zee.zee5app.dto.movies;
 
 
@@ -13,7 +15,7 @@ public interface MovieRepoistory {
 	public String deleteMovie(String id) ;
 	
 	//get movie details based on id's
-	public movies getMovieById(String id);
+	public Optional<movies> getMovieById(String id);
 	
 	// to return all user details
 	public movies[] getAllMovie() ;
