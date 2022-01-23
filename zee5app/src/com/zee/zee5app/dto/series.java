@@ -46,6 +46,7 @@ public class series implements Comparable<series>{
 		this.cast = cast;
 	}
 	
+//	set Id
 	public void setId(String id) throws InvalidIdLengthException {
 		if(id.length() < 6) {
 			//raise invalidId exception
