@@ -1,15 +1,22 @@
 package com.zee.zee5app.repoistory.impl;
 
-import java.util.ArrayList;
 import java.util.Optional;
+import java.util.TreeSet;
 
 import com.zee.zee5app.dto.series;
+import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.exception.IdNotFoundException;
+import com.zee.zee5app.exception.LocationNotFoundException;
+import com.zee.zee5app.exception.NameNotFoundException;
 import com.zee.zee5app.repoistory.SeriesRepoistory;
 
 public class SeriesRepositoryImpl implements SeriesRepoistory {
 
 //	private series[] seriesArr = new series[10];
-	private ArrayList<series> arrayList = new ArrayList<series>();
+//	private ArrayList<series> arrayList = new ArrayList<series>();
+	private TreeSet<series> set = new TreeSet<>();
+	
+	subscription Sub= new subscription();
 //	private static int count = -1;
 	private static SeriesRepoistory seriesRepoistory;
 	
@@ -17,7 +24,6 @@ public class SeriesRepositoryImpl implements SeriesRepoistory {
 		
 	}
 	
-//	
 	
 	public static SeriesRepoistory getInstance() {
 		if(seriesRepoistory == null)
@@ -26,38 +32,81 @@ public class SeriesRepositoryImpl implements SeriesRepoistory {
 	}
 
 	@Override
-	public String updateSeries(String id, series Series) {
+	public String updateSeries(String id, series Series) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<series> optional = this.getSeriesById(id);
+		if (optional.isPresent()) {
+			set.remove(optional.get());
+			boolean res = set.add(Series);
+			if(res) {
+				return "Done";
+			}else {
+				return "fail";
+			}
+		}
+		return "fail";
 	}
 
 	@Override
-	public String deleteSeries(String id) {
+	public String deleteSeries(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<series> optional = this.getSeriesById(id);
+		if (optional.isPresent()) {
+			boolean res = set.remove(optional.get());
+			if(res) {
+				return "Done";
+			}else {
+				return "fail";
+			}
+		}
+		return "fail";
 	}
-
+	
 	@Override
-	public Optional<series> getSeriesById(String id) {
+	public Optional<series> getSeriesById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		series series2 = null;
-		 for (series Series : arrayList) {
-		 if (Series.getId().equals(id))
+		 for (series Series : set) {
+		 if (Series.getId().equals(id)) {
 			 series2 = Series;
-	 }
-	 return Optional.ofNullable(series2);
+			 break;
+		 	}
+		 }
+		 return Optional.of(Optional
+				.ofNullable(series2)
+				.orElseThrow(()-> new IdNotFoundException("Id not found!")));
 	}
 
+	@Override
+	public Optional<series> getSeriesByName(String name, String country) throws NameNotFoundException, LocationNotFoundException {
+		// TODO Auto-generated method stub
+		series series2 = null;
+		 for (series Series : set) {
+		 if (Series.getSeriesName().equals(name)) {
+			 if (Sub.getPackCountry().equals(country)){
+					 series2 = Series;
+					 break;
+			 }else {
+				 throw new LocationNotFoundException("Series not available in your country");
+			 }
+		 	}
+		 }
+		 return Optional.of(Optional
+				.ofNullable(series2)
+				.orElseThrow(()-> new NameNotFoundException("Series Name not found!")));
+	}
+	
 	@Override
 	public series[] getAllSeries() {
 		// TODO Auto-generated method stub
-		return null;
+		series Series[] = new series[set.size()];
+		return set.toArray(Series);
 	}
 
 	@Override
 	public String addSeries(series Series) {
 		// TODO Auto-generated method stub
-		boolean res = this.arrayList.add(Series);
+		boolean res = this.set.add(Series);
 		if(res)
 			return "success";
 		return "failed";

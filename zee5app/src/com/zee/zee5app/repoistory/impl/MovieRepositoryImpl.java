@@ -1,14 +1,19 @@
 package com.zee.zee5app.repoistory.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import com.zee.zee5app.dto.movies;
+import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.exception.IdNotFoundException;
+import com.zee.zee5app.exception.LocationNotFoundException;
+import com.zee.zee5app.exception.NameNotFoundException;
 import com.zee.zee5app.repoistory.MovieRepoistory;
 
 public class MovieRepositoryImpl implements MovieRepoistory {
 
-	private ArrayList<movies> arrayList = new ArrayList<movies>();
+	private Set<movies> hashSet = new HashSet<movies>();
 //	private static int count = -1;
 	
 	private MovieRepositoryImpl() {
@@ -17,6 +22,8 @@ public class MovieRepositoryImpl implements MovieRepoistory {
 	
 	private static MovieRepoistory movieRepository;
 	
+	subscription Sub = new subscription();
+	
 	public static MovieRepoistory getInstance() {
 		if (movieRepository == null)
 			movieRepository = new MovieRepositoryImpl();
@@ -24,43 +31,116 @@ public class MovieRepositoryImpl implements MovieRepoistory {
 	}
 
 	@Override
-	public String updateMovie(String id, movies movie) {
+	public String updateMovie(String id, movies movie) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<movies> optional = this.getMovieById(id);
+		if (optional.isPresent()) {
+			hashSet.remove(optional.get());
+			boolean res = hashSet.add(movie);
+			if(res) {
+				return "Done";
+			}else {
+				return "fail";
+			}
+		}
+		return "fail";
 	}
 
 	@Override
-	public String deleteMovie(String id) {
+	public String deleteMovie(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<movies> optional = this.getMovieById(id);
+		if (optional.isPresent()) {
+			boolean res = hashSet.remove(optional.get());
+			if(res) {
+				return "Done";
+			}else {
+				return "fail";
+			}
+		}
+		return "fail";
 	}
 
 	@Override
-	public Optional<movies> getMovieById(String id) {
+	public Optional<movies> getMovieById(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		movies mov = null;
-		for (movies movie : arrayList) {
-			if (movie.getId().equals(id))
-				mov = movie;
-		}
-		return Optional.ofNullable(mov);
+		 for (movies Movies : hashSet) {
+		 if (Movies.getId().equals(id)) {
+			 mov = Movies;
+			 break;
+		 	}
+		 }
+		 return Optional.of(Optional
+				.ofNullable(mov)
+				.orElseThrow(()-> new IdNotFoundException("Id not found!")));
 	}
+	
+	public Optional<movies> getMovieByName(String name) throws NameNotFoundException {
+		// TODO Auto-generated method stub
+		movies mov = null;
+		 for (movies Movies : hashSet) {
+			 if (Movies.getMovieName().equals(name)) {
+					 mov = Movies;
+					 break;
+			 	}
+		 }
+		 return Optional.of(Optional
+				.ofNullable(mov)
+				.orElseThrow(()-> new NameNotFoundException("Movie name not found!")));
+	}
+
 
 	@Override
 	public movies[] getAllMovie() {
 		// TODO Auto-generated method stub
-		return null;
+		movies Movies[] = new movies[hashSet.size()];
+		return hashSet.toArray(Movies);
 	}
 
 	@Override
 	public String addMovie(movies movie) {
 		// TODO Auto-generated method stub
-		boolean res = this.arrayList.add(movie);
+		boolean res = this.hashSet.add(movie);
 		if (res)
 			return "success";
 		return "failed";
 	}
 	
+	@Override
+	public Optional<movies> getMoviedetails(String name) throws NameNotFoundException, LocationNotFoundException {
+		// TODO Auto-generated method stub
+		movies mov=null;
+		for(movies s: hashSet)		{	
+			System.out.println(s);
+			if(name.equals(s.getMovieName())){
+				mov=s;
+				break;
+			}
+				
+		}
+		
+		return Optional.of(Optional.ofNullable(mov).orElseThrow(()->new NameNotFoundException("movie does not exist")));
+	}
+	
+	@Override
+	public String watchMovie(String moviename) throws NameNotFoundException, LocationNotFoundException {
+		System.out.println(moviename);
+		Optional<movies> mov=getMoviedetails(moviename);
+		if(mov.isPresent()){
+			
+			if(mov.get().getAllowedLocations().equals("India")){
+				return "Movie Available";
+			}
+			else{
+				throw new  LocationNotFoundException("Movie is not available in your location");
+			}
+		}
+		else {
+			 throw new NameNotFoundException("Name Not Found");
+		}
+		
+	}
 	
 	
 //	@Override

@@ -4,7 +4,9 @@ package com.zee.zee5app.dto;
 
 import javax.naming.InvalidNameException;
 
+import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
+import com.zee.zee5app.exception.InvalidPasswordException;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
@@ -19,7 +21,8 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Register {
+public class Register implements Comparable<Register> 
+{
 	
 	@Setter(value = AccessLevel.NONE)
 	private String id;
@@ -27,7 +30,9 @@ public class Register {
 	private String firstName;
 	@Setter(value = AccessLevel.NONE)
 	private String lastName;
+	@Setter(value = AccessLevel.NONE)
 	private String email;
+	@Setter(value = AccessLevel.NONE)
 	private String password;
 //	private members accessed only inside class
 	
@@ -66,6 +71,29 @@ public class Register {
 		}
 		this.lastName = lastName;
 	}
+	
+	public void setEmail(String email) throws InvalidEmailException {
+		if(email.length()<4)
+			throw new InvalidEmailException("length should be greater that 4");
+		this.email = email;
+	}
+	
+	public void setPassword(String password) throws InvalidPasswordException {
+		if(password.length() < 5)
+			throw new InvalidPasswordException("password should only contain alphanumeric characters");
+		this.password = password;
+	}
+
+
+	@Override
+	public int compareTo(Register o) {
+		// TODO Auto-generated method stub
+//		ascending order
+//		return this.id.compareTo(o.getId());
+//		descending order
+		return o.id.compareTo(this.getId());
+	}
+
 
 
 //	@Override
