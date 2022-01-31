@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.zee.zee5app.dto.subscription;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidAmountException;
@@ -15,20 +17,16 @@ import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.repoistory.SubscriptionRepoistory;
 import com.zee.zee5app.utils.DBUtils;
 
+@Repository
+
 public class SubscriptionRepoistoryImpl implements SubscriptionRepoistory {
 
 	DBUtils dbUtils = null;
-	private static SubscriptionRepoistory subscriptionRepoistory;
 
-	private SubscriptionRepoistoryImpl() throws IOException {
-		dbUtils = DBUtils.getInstance();
+	public SubscriptionRepoistoryImpl() throws IOException {
+//		dbUtils = DBUtils.getInstance();
 	}
 
-	public static SubscriptionRepoistory getInstance() throws IOException {
-		if (subscriptionRepoistory == null)
-			subscriptionRepoistory = new SubscriptionRepoistoryImpl();
-		return subscriptionRepoistory;
-	}
 
 	@Override
 	public String addSubscription(subscription Sub) {
@@ -76,7 +74,44 @@ public class SubscriptionRepoistoryImpl implements SubscriptionRepoistory {
 
 	@Override
 	public String updateSubscription(String id, subscription Subscription) throws IdNotFoundException {
-		return null;
+		Connection connection = dbUtils.getConnection();
+		PreparedStatement preparedStatement;
+
+		String updateStatetment = "update subscription"
+				+ "set dop=?,expiry=?,amount=?,paymentMode=?,status=?,type=?,autoRenewal=?,regId=? where id=?";
+
+		try {
+			preparedStatement = connection.prepareStatement(updateStatetment);
+
+			preparedStatement.setString(1, Subscription.getDateOfPurchase());
+			preparedStatement.setString(2, Subscription.getExpiryDate());
+			preparedStatement.setInt(3, Subscription.getAmount());
+			preparedStatement.setString(4, Subscription.getPaymentMode());
+			preparedStatement.setString(5, Subscription.getStatus());
+			preparedStatement.setString(6, Subscription.getType());
+			preparedStatement.setString(7, Subscription.getAutoRenewal());
+			preparedStatement.setString(8, Subscription.getRegId());
+			preparedStatement.setString(9, Subscription.getId());
+
+			int result = preparedStatement.executeUpdate();
+			
+			if (result > 0) {
+				connection.commit();
+				return "success";
+			} else {
+				connection.rollback();
+				return "fail";
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 
 	@Override

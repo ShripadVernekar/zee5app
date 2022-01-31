@@ -10,6 +10,8 @@ import java.util.Optional;
 
 import javax.naming.InvalidNameException;
 
+import org.springframework.stereotype.Repository;
+
 import com.zee.zee5app.dto.movies;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
@@ -18,19 +20,14 @@ import com.zee.zee5app.exception.NameNotFoundException;
 import com.zee.zee5app.repoistory.MovieRepoistory;
 import com.zee.zee5app.utils.DBUtils;
 
+@Repository
+
 public class MovieRepositoryImpl implements MovieRepoistory {
 
-	private static MovieRepoistory movieRepository;
 	DBUtils dbUtils = null;
 
-	private MovieRepositoryImpl() throws IOException {
-		dbUtils = DBUtils.getInstance();
-	}
-
-	public static MovieRepoistory getInstance() throws IOException {
-		if (movieRepository == null)
-			movieRepository = new MovieRepositoryImpl();
-		return movieRepository;
+	public MovieRepositoryImpl() throws IOException {
+//		dbUtils = DBUtils.getInstance();
 	}
 
 	@Override
@@ -79,8 +76,45 @@ public class MovieRepositoryImpl implements MovieRepoistory {
 
 	@Override
 	public String updateMovie(String id, movies movie) throws IdNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection connection = dbUtils.getConnection();
+		PreparedStatement preparedStatement;
+
+		String updateStatetment = "update movies"
+				+ "set name=?,ageLimit=?,genre=?,language=?,trailer=?,cast=?,length=?,releaseDate=? where id=?";
+
+		try {
+			preparedStatement = connection.prepareStatement(updateStatetment);
+
+			preparedStatement.setString(1, movie.getMovieName());
+			preparedStatement.setInt(2, movie.getAgeLimit());
+			preparedStatement.setString(3, movie.getGenre());
+			preparedStatement.setString(4, movie.getLanguage());
+			preparedStatement.setString(5, movie.getTrailer());
+			preparedStatement.setString(6, movie.getCast());
+			preparedStatement.setInt(7, movie.getLength());
+			preparedStatement.setString(8, movie.getReleaseDate());
+			
+			preparedStatement.setString(9, movie.getId());
+
+			int result = preparedStatement.executeUpdate();
+
+			if (result > 0) {
+				connection.commit();
+				return "success";
+			} else {
+				connection.rollback();
+				return "fail";
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 
 	@Override

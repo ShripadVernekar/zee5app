@@ -5,30 +5,38 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.ROLE;
 import com.zee.zee5app.repoistory.LoginRepoistory;
 import com.zee.zee5app.utils.DBUtils;
 
+@Repository
+
 public class LoginRepositoryImpl implements LoginRepoistory {
 
-	DBUtils dbUtils = null;
-	private static LoginRepoistory loginRepoistory;
+	@Autowired 
+	DataSource dataSource;
+//	private static LoginRepoistory loginRepoistory;
 
-	private LoginRepositoryImpl() throws IOException {
-		dbUtils = DBUtils.getInstance();
+	public LoginRepositoryImpl() throws IOException {
+
 	}
 
-	public static LoginRepoistory getInstance() throws IOException {
-		if (loginRepoistory == null)
-			loginRepoistory = new LoginRepositoryImpl();
-		return loginRepoistory;
-	}
 
 	@Override
 	public String addCredentials(Login login) {
-		// TODO Auto-generated method stub
-		Connection connection = dbUtils.getConnection();
+		
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 		PreparedStatement preparedStatement;
 
 		String insertStatetment = "insert into login (userName,password,regId,role) values(?,?,?,?)";
@@ -70,7 +78,12 @@ public class LoginRepositoryImpl implements LoginRepoistory {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		String deleteStatetment = "delete from login where userName=?";
-		connection = dbUtils.getConnection();
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		try {
 			preparedStatement = connection.prepareStatement(deleteStatetment);
 			preparedStatement.setString(1, userName);
@@ -94,9 +107,7 @@ public class LoginRepositoryImpl implements LoginRepoistory {
 			}
 			e.printStackTrace();
 			return "fail";
-		} finally {
-			dbUtils.closeConnection(connection);
-		}
+		} 
 	}
 
 	@Override
@@ -108,7 +119,13 @@ public class LoginRepositoryImpl implements LoginRepoistory {
 	@Override
 	public String changeRole(String userName, ROLE role) {
 		// TODO Auto-generated method stub
-		Connection connection = dbUtils.getConnection();
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		String updateStmt = "UPDATE login set role=? WHERE userName = ?";
 		PreparedStatement preparedStatement;
 		try {
@@ -134,9 +151,7 @@ public class LoginRepositoryImpl implements LoginRepoistory {
 			}
 			e.printStackTrace();
 			return "fail";
-		} finally {
-			dbUtils.closeConnection(connection);
-		}
+		} 
 	}
 
 }

@@ -41,13 +41,14 @@ public class Register implements Comparable<Register>
 	private String password;
 //	private members accessed only inside class
 	
-	public Register(String id, String firstName, String lastName, String email, String password) 
+	public Register(String id, String firstName, String lastName, String email, String password, BigDecimal contactNumber) 
 			throws InvalidNameException, InvalidIdLengthException {
 		super();
 		this.setId(id);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.email = email;
+		this.contactNumber = contactNumber;
 		this.password = password;
 	}
 	

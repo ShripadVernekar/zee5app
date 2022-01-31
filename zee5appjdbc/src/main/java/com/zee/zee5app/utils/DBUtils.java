@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.springframework.stereotype.Component;
+
+@Component
 //class to get db connection and close it
 public class DBUtils {
 
@@ -19,11 +22,11 @@ public class DBUtils {
 	Properties properties;
 	public static DBUtils dbutils;
 
-	public static DBUtils getInstance() throws IOException {
-		if (dbutils == null)
-			dbutils = new DBUtils();
-		return dbutils;
-	}
+//	public static DBUtils getInstance() throws IOException {
+//		if (dbutils == null)
+//			dbutils = new DBUtils();
+//		return dbutils;
+//	}
 
 //	get connection with the db
 	public Connection getConnection() {
@@ -38,7 +41,7 @@ public class DBUtils {
 			if (connection == null || connection.isClosed()) {
 				connection = DriverManager.getConnection(properties.getProperty("jdbc.url"),
 						properties.getProperty("jdbc.username"), properties.getProperty("jdbc.password"));
-				connection.setAutoCommit(false);
+//				connection.setAutoCommit(false);
 			}
 //			System.out.println(properties);
 		} catch (SQLException e) {

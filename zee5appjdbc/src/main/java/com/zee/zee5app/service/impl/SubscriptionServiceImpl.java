@@ -1,33 +1,21 @@
 package com.zee.zee5app.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 import com.zee.zee5app.dto.subscription;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidAmountException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.repoistory.SubscriptionRepoistory;
-import com.zee.zee5app.repoistory.impl.SubscriptionRepoistoryImpl;
 import com.zee.zee5app.service.SubscriptionService;
 
+@Service
 public class SubscriptionServiceImpl implements SubscriptionService {
-	
-	private static SubscriptionService subscriptionService;
+
 	private static SubscriptionRepoistory subscriptionRepoistory;
-	
-	private SubscriptionServiceImpl() throws IOException {
-		subscriptionRepoistory = SubscriptionRepoistoryImpl.getInstance();
-	}
-	
-	public static SubscriptionService getInstance() throws IOException {
-		if(subscriptionService == null)
-			subscriptionService = new SubscriptionServiceImpl();
-		return subscriptionService;
-	}
-	
-	
 
 	@Override
 	public String addSubscription(subscription Subscription) {
@@ -36,10 +24,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Optional<subscription> getSubscriptionById(String id) throws IdNotFoundException, InvalidIdLengthException, InvalidAmountException {
+	public Optional<subscription> getSubscriptionById(String id)
+			throws IdNotFoundException, InvalidIdLengthException, InvalidAmountException {
 		return subscriptionRepoistory.getSubscriptionById(id);
 	}
-	
 
 	@Override
 	public String deleteSubscription(String id) throws IdNotFoundException {
@@ -53,7 +41,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Optional<ArrayList<subscription>> getAllSubscription() throws InvalidIdLengthException, InvalidAmountException {
+	public Optional<ArrayList<subscription>> getAllSubscription()
+			throws InvalidIdLengthException, InvalidAmountException {
 		// TODO Auto-generated method stub
 		return subscriptionRepoistory.getAllSubscription();
 	}

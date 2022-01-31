@@ -1,6 +1,5 @@
 package com.zee.zee5app.service.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -11,23 +10,11 @@ import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.NameNotFoundException;
 import com.zee.zee5app.repoistory.MovieRepoistory;
-import com.zee.zee5app.repoistory.impl.MovieRepositoryImpl;
 import com.zee.zee5app.service.MovieService;
 
 public class MovieServiceImpl implements MovieService {
 
-	private static MovieService movieService;
 	private static MovieRepoistory movieRepoistory;
-
-	private MovieServiceImpl() throws IOException {
-		movieRepoistory = MovieRepositoryImpl.getInstance();
-	}
-
-	public static MovieService getInstance() throws IOException {
-		if (movieService == null)
-			movieService = new MovieServiceImpl();
-		return movieService;
-	}
 
 	@Override
 	public String addMovie(movies Movie) {

@@ -1,28 +1,29 @@
 package com.zee.zee5app.service.impl;
 
-import java.io.IOException;
+import org.springframework.stereotype.Service;
 
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.ROLE;
 import com.zee.zee5app.repoistory.LoginRepoistory;
-import com.zee.zee5app.repoistory.impl.LoginRepositoryImpl;
 import com.zee.zee5app.service.LoginService;
+
+@Service
 
 public class LoginServiceImpl implements LoginService {
 
-	private static LoginService loginService;
 	private static LoginRepoistory loginRepoistory = null;
+//	private static LoginService loginService;
 
-	private LoginServiceImpl() throws IOException {
-		loginRepoistory = LoginRepositoryImpl.getInstance();
-	}
-
-	public static LoginService getInstance() throws IOException {
-		if (loginService == null) {
-			loginService = new LoginServiceImpl();
-		}
-		return loginService;
-	}
+//	private LoginServiceImpl() throws IOException {
+//		loginRepoistory = LoginRepositoryImpl.getInstance();
+//	}
+//
+//	public static LoginService getInstance() throws IOException {
+//		if (loginService == null) {
+//			loginService = new LoginServiceImpl();
+//		}
+//		return loginService;
+//	}
 
 	@Override
 	public String addCredentials(Login login) {

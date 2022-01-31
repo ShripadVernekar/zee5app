@@ -5,10 +5,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import java.util.set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.ROLE;
@@ -20,31 +24,31 @@ import com.zee.zee5app.exception.InvalidNameException;
 import com.zee.zee5app.exception.InvalidPasswordException;
 import com.zee.zee5app.repoistory.LoginRepoistory;
 import com.zee.zee5app.repoistory.UserRepoistory;
-import com.zee.zee5app.utils.DBUtils;
 import com.zee.zee5app.utils.PasswordUtils;
+
+@Repository // it will create singleton object
 
 public class UserRepositoryImpl implements UserRepoistory {
 
-	DBUtils dbUtils = null;
-	LoginRepoistory loginRepoistory;
-	private static UserRepoistory repository;
+	@Autowired // it will bring already created object by using name / type
+	DataSource dataSource;
+	@Autowired
+	LoginRepoistory loginRepoistory ;
 
-	private UserRepositoryImpl() throws IOException {
-		dbUtils = DBUtils.getInstance();
-		loginRepoistory = LoginRepositoryImpl.getInstance();
-	}
-
-	public static UserRepoistory getInstance() throws IOException {
-		if (repository == null)
-			repository = new UserRepositoryImpl();
-		return repository;
+	public UserRepositoryImpl() throws IOException {
+		
 	}
 
 	@Override
 	public String addUser(Register register) {
 		// Add user details to the table
 
-		Connection connection = dbUtils.getConnection();
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 		PreparedStatement preparedStatement = null;
 
 		String insertStatetment = "insert into register" + "(regId,firstName,lastName,email,contactNumber,password)"
@@ -52,6 +56,8 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 		try {
 			preparedStatement = connection.prepareStatement(insertStatetment);
+			String salt = PasswordUtils.getSalt(30);
+			String enrcyptedPassword = PasswordUtils.generateSecurePassword(register.getPassword(), salt);
 
 			// adding fields to the '?' placeholder
 			preparedStatement.setString(1, register.getId());
@@ -59,16 +65,14 @@ public class UserRepositoryImpl implements UserRepoistory {
 			preparedStatement.setString(3, register.getLastName());
 			preparedStatement.setString(4, register.getEmail());
 			preparedStatement.setBigDecimal(5, register.getContactNumber());
-			String salt = PasswordUtils.getSalt(30);
-			String enrcyptedPassword = PasswordUtils.generateSecurePassword(register.getPassword(), salt);
 			preparedStatement.setString(6, enrcyptedPassword);
 
 			int result = preparedStatement.executeUpdate();
 			// the no of rows afftected by the DML statement
 			// 1 : one row is inserted
-			//
 
 			if (result > 0) {
+				connection.commit();
 				Login login = new Login(register.getEmail(), enrcyptedPassword, register.getId(), ROLE.ROLE_USER);
 				String status = loginRepoistory.addCredentials(login);
 				if (status.equals("success")) {
@@ -90,22 +94,60 @@ public class UserRepositoryImpl implements UserRepoistory {
 			}
 			e.printStackTrace();
 			return "fail";
-		} finally {
-			// closure work
-			// closing the connection
-			dbUtils.closeConnection(connection);
 		}
 	}
 
 	@Override
 	public String updateUser(String id, Register register) throws IdNotFoundException {
-		return null;
+
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		PreparedStatement preparedStatement = null;
+
+		String insertStatetment = "UPDATE register SET firstName=?,lastName=? where regId=?";
+
+		try {
+			preparedStatement = connection.prepareStatement(insertStatetment);
+
+			// adding fields to the '?' placeholder
+			preparedStatement.setString(1, register.getFirstName());
+			preparedStatement.setString(2, register.getLastName());
+			preparedStatement.setString(3, register.getId());
+
+			int result = preparedStatement.executeUpdate();
+
+			if (result > 0) {
+				connection.commit();
+				return "success";
+			} else {
+				connection.rollback();
+				return "fail";
+			}
+
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 
 	public Optional<Register> getUserById(String id) throws IdNotFoundException, InvalidIdLengthException,
 			InvalidNameException, InvalidEmailException, InvalidPasswordException, javax.naming.InvalidNameException {
 
-		Connection connection = dbUtils.getConnection();
+		Connection connection = null;
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
@@ -122,7 +164,7 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 			// RS object its a single one which is holding all the records
 			// do we need to traverse it? ===> yes
-			//
+
 			if (resultSet.next()) {
 				// next method is used to traverse the RS
 				/// initially RS will be places just above the 1st rec.
@@ -141,8 +183,6 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			dbUtils.closeConnection(connection);
 		}
 
 		return Optional.empty();
@@ -173,7 +213,11 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 		String selectStatement = "select * from register";
 
-		connection = dbUtils.getConnection();
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 		try {
 			preparedStatement = connection.prepareStatement(selectStatement);
 //			preparedStatement.setString(1, id);
@@ -194,8 +238,6 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			dbUtils.closeConnection(connection);
 		}
 
 		return Optional.empty();
@@ -208,7 +250,11 @@ public class UserRepositoryImpl implements UserRepoistory {
 		PreparedStatement preparedStatement = null;
 
 		String deleteStatetment = "delete from register where regId=?";
-		connection = dbUtils.getConnection();
+		try {
+			connection = dataSource.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 
 		try {
 			preparedStatement = connection.prepareStatement(deleteStatetment);
@@ -232,8 +278,6 @@ public class UserRepositoryImpl implements UserRepoistory {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "fail";
-		} finally {
-			dbUtils.closeConnection(connection);
 		}
 	}
 

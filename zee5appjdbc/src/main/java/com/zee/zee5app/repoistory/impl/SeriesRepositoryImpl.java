@@ -8,25 +8,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.zee.zee5app.dto.series;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.repoistory.SeriesRepoistory;
 import com.zee.zee5app.utils.DBUtils;
 
+@Repository
+
 public class SeriesRepositoryImpl implements SeriesRepoistory {
 
-	private static SeriesRepoistory seriesRepoistory;
+//	private static SeriesRepoistory seriesRepoistory;
 	DBUtils dbUtils = null;
 
-	private SeriesRepositoryImpl() throws IOException {
-		dbUtils = DBUtils.getInstance();
-	}
-
-	public static SeriesRepoistory getInstance() throws IOException {
-		if (seriesRepoistory == null)
-			seriesRepoistory = new SeriesRepositoryImpl();
-		return seriesRepoistory;
+	public SeriesRepositoryImpl() throws IOException {
+//		dbUtils = DBUtils.getInstance();
 	}
 
 	@Override
@@ -74,8 +72,45 @@ public class SeriesRepositoryImpl implements SeriesRepoistory {
 
 	@Override
 	public String updateSeries(String id, series Series) throws IdNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+		Connection connection = dbUtils.getConnection();
+		PreparedStatement preparedStatement;
+
+		String insertStatetment = "update series"
+				+ "set ageLimit=?,cast=?,genre=?,length=?,releaseDate=?,language=?,noOfEpisodes=? where id=?";
+
+// "(id,ageLimit,cast,genre,length,trailer,releaseDate,language,noOfEpisodes)" 
+		try {
+			preparedStatement = connection.prepareStatement(insertStatetment);
+
+			preparedStatement.setInt(1, Series.getAgeLimit());
+			preparedStatement.setString(2, Series.getCast());
+			preparedStatement.setString(3, Series.getGenre());
+			preparedStatement.setInt(4, Series.getLength());
+//			preparedStatement.setString(6, Series.getTrailer());
+			preparedStatement.setString(5, Series.getReleaseDate());
+			preparedStatement.setString(6, Series.getLanguage());
+			preparedStatement.setInt(7, Series.getNoOfEpisodes());
+			preparedStatement.setString(8, Series.getId());
+
+			int result = preparedStatement.executeUpdate();
+
+			if (result > 0) {
+				connection.commit();
+				return "success";
+			} else {
+				connection.rollback();
+				return "fail";
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 
 	@Override
