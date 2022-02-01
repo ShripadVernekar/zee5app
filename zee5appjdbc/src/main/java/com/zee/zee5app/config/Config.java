@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
+
+import com.zee.zee5app.utils.PasswordUtils;
 
 //it is used to mark on config class/classes
 @Configuration
@@ -27,7 +30,9 @@ public class Config {
 	Environment environment;
 
 	//if we do not specify bean name then by default method name is taken as bean name
+	//ex: @Bean(name="ds") here we have to use "ds" else use "dataSource"
 	@Bean // for providing singleton object
+	@Scope("prototype")
 	public DataSource dataSource() {
 		BasicDataSource basicDataSource = new BasicDataSource();
 		basicDataSource.setUsername(environment.getProperty("jdbc.username"));
@@ -35,6 +40,12 @@ public class Config {
 		basicDataSource.setUrl(environment.getProperty("jdbc.url"));
 		basicDataSource.setDefaultAutoCommit(false);
 		return basicDataSource;
+	}
+	
+	// this can also be used without marking component in passowrdutils class
+	@Bean
+	public PasswordUtils passwordUtils() {
+		return new  PasswordUtils();
 	}
 
 } // end of class

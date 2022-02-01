@@ -34,6 +34,8 @@ public class UserRepositoryImpl implements UserRepoistory {
 	DataSource dataSource;
 	@Autowired
 	LoginRepoistory loginRepoistory ;
+	@Autowired
+	PasswordUtils passwordUtils;
 
 	public UserRepositoryImpl() throws IOException {
 		
@@ -56,8 +58,8 @@ public class UserRepositoryImpl implements UserRepoistory {
 
 		try {
 			preparedStatement = connection.prepareStatement(insertStatetment);
-			String salt = PasswordUtils.getSalt(30);
-			String enrcyptedPassword = PasswordUtils.generateSecurePassword(register.getPassword(), salt);
+			String salt = passwordUtils.getSalt(30);
+			String enrcyptedPassword = passwordUtils.generateSecurePassword(register.getPassword(), salt);
 
 			// adding fields to the '?' placeholder
 			preparedStatement.setString(1, register.getId());
@@ -78,6 +80,7 @@ public class UserRepositoryImpl implements UserRepoistory {
 				if (status.equals("success")) {
 					return "success";
 				} else {
+					System.out.println("hi");
 					connection.rollback();
 					return "fail";
 				}

@@ -32,13 +32,23 @@ public class MainSpring {
 		DataSource dataSource = applicationContext.getBean("dataSource",DataSource.class);
 		System.out.println(dataSource != null);
 		
-		try {
-			Register register = new Register("shri00018", "hari", "shankar", "harki314@gmail.com", "343323",new BigDecimal("9235567810"));
-			System.out.println(repoistory.addUser(register));
-		} catch (InvalidNameException | InvalidIdLengthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+/*		
+		DataSource dSource1 = applicationContext.getBean("ds",DataSource.class);
+		DataSource dSource2 = applicationContext.getBean("ds",DataSource.class);
+		
+		System.out.println(dSource1.hashCode());
+		System.out.println(dSource2.hashCode());
+		System.out.println(dSource1.equals(dSource2));
+*/
+		
+//		try {
+//			Register register = new Register("shri00017", "hari", "shankar", "harki314@gmail.com", "343323",new BigDecimal("9235567810"));
+//			System.out.println(repoistory.addUser(register));
+//		} catch (InvalidNameException | InvalidIdLengthException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		applicationContext.close();
 
 	}

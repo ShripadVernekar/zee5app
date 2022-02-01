@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.naming.InvalidNameException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.zee.zee5app.dto.Login;
 import com.zee.zee5app.dto.ROLE;
 import com.zee.zee5app.dto.Register;
@@ -124,7 +126,8 @@ public class Main {
 		
 		
 	}*/
-		
+//		@Autowired
+		LoginService loginService;
 		try {
 			LoginService loginService = LoginServiceImpl.getInstance();
 			System.out.println(loginService.changeRole("hari34@gmail.com", ROLE.ROLE_ADMIN));
