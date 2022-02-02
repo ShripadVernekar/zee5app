@@ -1,10 +1,15 @@
 package com.zee.zee5app.dto;
 
-import javax.naming.InvalidNameException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.zee.zee5app.exception.InvalidIdLengthException;
-
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,50 +21,38 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-
+@AllArgsConstructor
+@Entity // entity class is used for ORM
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "movieName") }, name = "movies") // can be done this
 public class movies implements Comparable<movies> {
 
-	@Setter(value = AccessLevel.NONE)
+	@Id
+	@Column(name = "movId")
 	private String id;
-	@Setter(value = AccessLevel.NONE)
+
+	@NotBlank
 	private String movieName;
+
+	@Max(value = 70)
 	private int ageLimit;
+
+	@NotBlank
 	private String genre;
+
+	@NotBlank
 	private String language;
+
+	@NotBlank
 	private String trailer;
+
+	@NotBlank
 	private String cast;
+
+	@NotNull
 	private int length;
+
+	@NotBlank
 	private String releaseDate;
-
-	public movies(String id, String movieName, String genre, String language, String releaseDate, int length,
-			String trailer, String cast, int ageLimit) throws InvalidNameException, InvalidIdLengthException {
-
-		super();
-		this.setId(id);
-		this.setMovieName(movieName);
-		this.ageLimit = ageLimit;
-		this.genre = genre;
-		this.language = language;
-		this.trailer = trailer;
-		this.cast = cast;
-		this.length = length;
-		this.releaseDate = releaseDate;
-
-	}
-
-	public void setId(String id) throws InvalidIdLengthException {
-		if (id.length() < 6) {
-			throw new InvalidIdLengthException("id length is less than or equal to 6"); // throws exception
-		}
-		this.id = id;
-	}
-
-	public void setMovieName(String movieName) throws InvalidNameException {
-		if (movieName == null || movieName == "" || movieName.length() < 2) {
-			throw new InvalidNameException("Movie name not valid");
-		}
-		this.movieName = movieName;
-	}
 
 	@Override
 	public int compareTo(movies o) {

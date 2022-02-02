@@ -2,15 +2,16 @@ package com.zee.zee5app.dto;
 
 import java.math.BigDecimal;
 
-//import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import javax.naming.InvalidNameException;
-
-import com.zee.zee5app.exception.InvalidEmailException;
-import com.zee.zee5app.exception.InvalidIdLengthException;
-import com.zee.zee5app.exception.InvalidPasswordException;
-
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 //import lombok.Data;
 import lombok.Getter;
@@ -23,84 +24,46 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Register implements Comparable<Register> 
-{
-	
-	@Setter(value = AccessLevel.NONE)
-	private String id;
-	@Setter(value = AccessLevel.NONE)
-	private String firstName;
-	@Setter(value = AccessLevel.NONE)
-	private String lastName;
-	@Setter(value = AccessLevel.NONE)
-	private String email;
-	
-	private BigDecimal contactNumber;
-	
-	@Setter(value = AccessLevel.NONE)
-	private String password;
-//	private members accessed only inside class
-	
-	public Register(String id, String firstName, String lastName, String email, String password, BigDecimal contactNumber) 
-			throws InvalidNameException, InvalidIdLengthException {
-		super();
-		this.setId(id);
-		this.setFirstName(firstName);
-		this.setLastName(lastName);
-		this.email = email;
-		this.contactNumber = contactNumber;
-		this.password = password;
-	}
-	
-	
-	public void setId(String id) throws InvalidIdLengthException {
-	// throws: it will provide the list of exceptions maybe raised
-	// it will hold list of checked exceptions
-		if(id.length() < 6) {
-			//raise invalidId exception
-			//exception obj is created by jvm but here we have to create & raise user defined exception obj
-			throw new InvalidIdLengthException("id length is less than or equal to 6"); //throws exception
-		}
-		this.id = id;
-	}
-	
-	public void setFirstName(String firstName) throws InvalidNameException {
-		if (firstName == null || firstName == "" || firstName.length() <2) {
-			throw new InvalidNameException("first name not valid");
-		}
-		this.firstName = firstName;
-	}
-	
-	public void setLastName(String lastName) throws InvalidNameException {
-		if (lastName == null || lastName == "" || lastName.length() <2) {
-			throw new InvalidNameException("last name not valid");
-		}
-		this.lastName = lastName;
-	}
-	
-	public void setEmail(String email) throws InvalidEmailException {
-		if(email.length()<4)
-			throw new InvalidEmailException("length should be greater that 4");
-		this.email = email;
-	}
-	
-	public void setPassword(String password) throws InvalidPasswordException {
-		if(password.length() < 5)
-			throw new InvalidPasswordException("password should only contain alphanumeric characters");
-		this.password = password;
-	}
+@AllArgsConstructor
+// ORM mapping purpose
+@Entity // entity class is used for ORM
+//customize table name
+@Table(name = "register")
+public class Register implements Comparable<Register> {
 
+	@Id
+	@Column(name = "regId") // here camel case is converted to snake case(i.e reg_id)
+	private String id;
+
+	@Size(max = 50)
+	@NotBlank
+	private String firstName;
+
+	@Size(max = 50)
+	@NotBlank
+	private String lastName;
+
+	@Size(max = 50)
+	@Email
+	private String email;
+
+	@Size(max = 100)
+	@NotBlank
+	private String password;
+
+	@NotNull
+	private BigDecimal contactNumber;
+
+//	private members accessed only inside class
 
 	@Override
 	public int compareTo(Register o) {
 		// TODO Auto-generated method stub
-//		ascending order
-//		return this.id.compareTo(o.getId());
-//		descending order
-		return o.id.compareTo(this.getId());
+
+		// return this.id.compareTo(o.getId()); // ascending order
+
+		return o.id.compareTo(this.getId()); // descending order
 	}
-
-
 
 //	@Override
 //	public int hashCode() {
@@ -123,5 +86,5 @@ public class Register implements Comparable<Register>
 //	}
 //
 //	
-	
+
 }

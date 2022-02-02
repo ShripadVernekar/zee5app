@@ -1,10 +1,16 @@
 package com.zee.zee5app.dto;
 
-import javax.naming.InvalidNameException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.zee.zee5app.exception.InvalidIdLengthException;
-
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,43 +22,39 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity // entity class is used for ORM
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "seriesName") })
 
 public class series implements Comparable<series> {
 
-	@Setter(value = AccessLevel.NONE)
+	@Id
+	@Column(name = "seriesId")
 	private String id;
+
+	@Max(value = 70)
 	private int ageLimit;
+
+	@NotBlank
+	private String seriesName;
+
+	@NotBlank
 	private String genre;
+
+	@NotBlank
 	private String language;
+
+	@NotNull
 	private String releaseDate;
-	private int length;
+
+	@NotBlank
 	private String trailer;
+
+	@NotBlank
 	private String cast;
+
+	@Min(value = 1)
 	private int noOfEpisodes;
-
-	public series(String id, int ageLimit, String genre, String language, String releaseDate, int length,
-			String trailer, String cast, int noOfEpisodes) throws InvalidNameException, InvalidIdLengthException {
-
-		super();
-		this.setId(id);
-		this.ageLimit = (ageLimit);
-		this.cast = cast;
-		this.genre = genre;
-		this.length = length;
-		this.trailer = trailer;
-		this.releaseDate = releaseDate;
-		this.language = language;
-		this.noOfEpisodes = noOfEpisodes;
-
-	}
-
-//	set Id
-	public void setId(String id) throws InvalidIdLengthException {
-		if (id.length() < 6) {
-			throw new InvalidIdLengthException("id length is less than or equal to 6"); // throws exception
-		}
-		this.id = id;
-	}
 
 	@Override
 	public int compareTo(series o) {

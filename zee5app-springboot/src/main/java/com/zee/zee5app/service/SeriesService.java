@@ -1,6 +1,7 @@
 package com.zee.zee5app.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.zee.zee5app.dto.series;
@@ -17,5 +18,5 @@ public interface SeriesService {
 
 	public Optional<series> getSeriesById(String id) throws IdNotFoundException, InvalidIdLengthException;
 
-	public Optional<ArrayList<series>> getAllSeries() throws InvalidIdLengthException;
+	public Optional<List<series>> getAllSeries() throws InvalidIdLengthException;
 }

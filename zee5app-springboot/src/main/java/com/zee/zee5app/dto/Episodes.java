@@ -1,8 +1,14 @@
 package com.zee.zee5app.dto;
 
-import com.zee.zee5app.exception.InvalidIdLengthException;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,29 +20,28 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-
+@AllArgsConstructor
+@Entity // entity class is used for ORM
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = "episodeName") })
 public class Episodes {
 
-	@Setter(value = AccessLevel.NONE)
+	@Id
+	@Column(name = "epiId")
 	private String epiId;
-	@Setter(value = AccessLevel.NONE)
+
+	@NotBlank
 	private String seriesId;
+
+	@NotBlank
 	private String episodeName;
+
+	@NotNull
 	private int epiLength;
+
+	@NotBlank
 	private String location;
+
+	@NotBlank
 	private String trailer;
 
-	public void setEpiId(String id) throws InvalidIdLengthException {
-		if (id.length() < 6) {
-			throw new InvalidIdLengthException("id length is less than or equal to 6");
-		}
-		this.epiId = id;
-	}
-
-	public void setSeriesId(String id) throws InvalidIdLengthException {
-		if (id.length() < 6) {
-			throw new InvalidIdLengthException("id length is less than or equal to 6");
-		}
-		this.seriesId = id;
-	}
 }

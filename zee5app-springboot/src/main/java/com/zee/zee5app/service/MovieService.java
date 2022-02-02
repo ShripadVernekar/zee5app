@@ -1,6 +1,6 @@
 package com.zee.zee5app.service;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.naming.InvalidNameException;
@@ -25,5 +25,5 @@ public interface MovieService {
 	public Optional<movies> getMovieByName(String name)
 			throws NameNotFoundException, LocationNotFoundException, InvalidNameException, InvalidIdLengthException;
 
-	public Optional<ArrayList<movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException;
+	public Optional<List<movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException;
 }
