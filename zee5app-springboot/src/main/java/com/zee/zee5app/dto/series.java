@@ -1,8 +1,13 @@
 package com.zee.zee5app.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Max;
@@ -61,4 +66,7 @@ public class series implements Comparable<series> {
 		return o.id.compareTo(this.getId());
 	}
 
+	@OneToMany(mappedBy = "Series", cascade = CascadeType.ALL)
+	private List<Episodes> episodes = new ArrayList<>();
+	
 }

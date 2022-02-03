@@ -24,6 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "movieName") }, name = "movies") // can be done this
+
 public class movies implements Comparable<movies> {
 
 	@Id

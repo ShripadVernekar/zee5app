@@ -5,14 +5,20 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.zee.zee5app.dto.Login;
+import com.zee.zee5app.dto.EROLE;
 import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.InvalidNameException;
 import com.zee.zee5app.exception.InvalidPasswordException;
+import com.zee.zee5app.repository.LoginRepository;
 import com.zee.zee5app.repository.UserRepository;
+import com.zee.zee5app.service.LoginService;
 import com.zee.zee5app.service.UserService;
 
 @Service
@@ -21,12 +27,33 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepoistory;
-
+	@Autowired
+	private LoginService loginService;
+	@Autowired
+	private LoginRepository loginRepository;
+	
 	@Override
-	public String addUser(Register register) {
+	@Transactional(rollbackFor = AlreadyExistsException.class)
+	public String addUser(Register register) throws AlreadyExistsException {
+
+		if (userRepoistory.existsByEmailAndContactNumber(register.getEmail(), register.getContactNumber()) == true) {
+			throw new AlreadyExistsException("this record exists in DB");
+		}
+		
+
 		Register register2 = userRepoistory.save(register);
 		if (register2 != null) {
-			return "success";
+			
+			if(loginRepository.existsByuserName(register.getEmail()))
+				throw new AlreadyExistsException("this record exists in DB");
+			String res = loginService.addCredentials(
+					new Login(register.getEmail(), register.getPassword(), register.getId()));
+			
+			if (res.equals("success")) {
+				return "Login and Register addition success";
+			} else {
+				return "login addition fail";
+			}
 		} else {
 			return "fail";
 		}

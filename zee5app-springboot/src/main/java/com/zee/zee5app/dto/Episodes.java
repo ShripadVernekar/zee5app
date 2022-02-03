@@ -3,10 +3,14 @@ package com.zee.zee5app.dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.ManyToAny;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,9 +34,6 @@ public class Episodes {
 	private String epiId;
 
 	@NotBlank
-	private String seriesId;
-
-	@NotBlank
 	private String episodeName;
 
 	@NotNull
@@ -44,4 +45,8 @@ public class Episodes {
 	@NotBlank
 	private String trailer;
 
+	@ManyToOne
+	// this episode table should have fk.seriesid
+	@JoinColumn(name = "seriesid")
+	private series Series;   //series id and that col shd act as fk
 }
