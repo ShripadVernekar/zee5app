@@ -25,7 +25,7 @@ import lombok.ToString;
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "movieName") }, name = "movies") // can be done this
 
-public class movies implements Comparable<movies> {
+public class Movies implements Comparable<Movies> {
 
 	@Id
 	@Column(name = "movId")
@@ -43,7 +43,9 @@ public class movies implements Comparable<movies> {
 	@NotBlank
 	private String language;
 
-	@NotBlank
+//	@Lob
+//	private byte[] trailer;
+	
 	private String trailer;
 
 	@NotBlank
@@ -56,7 +58,7 @@ public class movies implements Comparable<movies> {
 	private String releaseDate;
 
 	@Override
-	public int compareTo(movies o) {
+	public int compareTo(Movies o) {
 		return o.id.compareTo(this.getId());
 	}
 

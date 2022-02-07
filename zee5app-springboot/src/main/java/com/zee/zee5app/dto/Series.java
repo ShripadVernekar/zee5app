@@ -31,7 +31,7 @@ import lombok.ToString;
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "seriesName") })
 
-public class series implements Comparable<series> {
+public class Series implements Comparable<Series> {
 
 	@Id
 	@Column(name = "seriesId")
@@ -62,7 +62,7 @@ public class series implements Comparable<series> {
 	private int noOfEpisodes;
 
 	@Override
-	public int compareTo(series o) {
+	public int compareTo(Series o) {
 		return o.id.compareTo(this.getId());
 	}
 

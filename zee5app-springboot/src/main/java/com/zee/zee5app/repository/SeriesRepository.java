@@ -5,12 +5,12 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.zee.zee5app.dto.series;
+import com.zee.zee5app.dto.Series;
 
 @Repository
-public interface SeriesRepository extends JpaRepository<series, String> {
+public interface SeriesRepository extends JpaRepository<Series, String> {
 
-	Optional<series> findBySeriesNameAndLanguage(String seriesName, String language);
+	Optional<Series> findBySeriesNameAndLanguage(String seriesName, String language);
 //	Optional<series> findBySeriesName(String seriesName);
 //	Optional<series> findBySeriesNameAndReleaseDate(String seriesName, String releaseDate);
 

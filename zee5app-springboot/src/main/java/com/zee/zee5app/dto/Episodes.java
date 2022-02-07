@@ -48,5 +48,5 @@ public class Episodes {
 	@ManyToOne
 	// this episode table should have fk.seriesid
 	@JoinColumn(name = "seriesid")
-	private series Series;   //series id and that col shd act as fk
+	private Series Series;   //series id and that col shd act as fk
 }

@@ -6,20 +6,20 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.zee.zee5app.dto.movies;
+import com.zee.zee5app.dto.Movies;
 
 @Repository
-public interface MoviesRepository extends JpaRepository<movies, String> {
+public interface MoviesRepository extends JpaRepository<Movies, String> {
 
 	// "exists" word to check and get boolean result
 	Boolean existsByMovieName(String movieName);
 	
 	// "find" word to retrieve details here by moviename and language
-	Optional<movies> findByMovieNameAndLanguage(String moviename, String language);
+	Optional<Movies> findByMovieNameAndLanguage(String moviename, String language);
 	
-	Optional<movies> findByMovieName(String moviename);
+	Optional<Movies> findByMovieName(String moviename);
 	
-	Optional<movies> findByMovieNameAndReleaseDate(String moviename, String releaseDate);
+	Optional<Movies> findByMovieNameAndReleaseDate(String moviename, String releaseDate);
 	
-	Optional<List<movies>> findByCast(String cast);
+	Optional<List<Movies>> findByCast(String cast);
 }

@@ -27,7 +27,7 @@ import lombok.ToString;
 @Entity 
 @Table(name = "subscription")
 
-public class subscription implements Comparable<subscription>{
+public class Subscription implements Comparable<Subscription>{
 	
 	@Id
 	@Column(name = "subId")
@@ -55,7 +55,7 @@ public class subscription implements Comparable<subscription>{
 
 
 	@Override
-	public int compareTo(subscription o) {
+	public int compareTo(Subscription o) {
 		// TODO Auto-generated method stub
 		return this.id.compareTo(o.getId());
 	}

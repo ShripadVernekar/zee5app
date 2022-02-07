@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.dto.Subscription;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidAmountException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
@@ -20,9 +20,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	private  SubscriptionRepository subscriptionRepository;
 
 	@Override
-	public String addSubscription(subscription Subscription) {
+	public String addSubscription(Subscription subscription) {
 		// TODO Auto-generated method stub
-		subscription sub = subscriptionRepository.save(Subscription);
+		Subscription sub = subscriptionRepository.save(subscription);
 		if(sub != null) {
 			return "success";
 		}else {
@@ -33,7 +33,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	@Override
 	public String deleteSubscription(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
-		Optional<subscription> optional;
+		Optional<Subscription> optional;
 		try {
 			optional = this.getSubscriptionById(id);
 			if(optional.isEmpty()) {
@@ -51,21 +51,21 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Optional<subscription> getSubscriptionById(String id)
+	public Optional<Subscription> getSubscriptionById(String id)
 			throws IdNotFoundException, InvalidIdLengthException, InvalidAmountException {
 		// TODO Auto-generated method stub
 		return subscriptionRepository.findById(id);
 	}
 
 	@Override
-	public Optional<List<subscription>> getAllSubscription()
+	public Optional<List<Subscription>> getAllSubscription()
 			throws InvalidIdLengthException, InvalidAmountException {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(subscriptionRepository.findAll());
 	}
 
 	@Override
-	public String updateSubscription(String id, subscription Subscription) throws IdNotFoundException {
+	public String updateSubscription(String id, Subscription subscription) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

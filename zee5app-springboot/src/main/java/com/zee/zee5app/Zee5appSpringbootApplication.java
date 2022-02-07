@@ -12,9 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import com.zee.zee5app.dto.Episodes;
 import com.zee.zee5app.dto.Register;
-import com.zee.zee5app.dto.movies;
-import com.zee.zee5app.dto.series;
-import com.zee.zee5app.dto.subscription;
+import com.zee.zee5app.dto.Movies;
+import com.zee.zee5app.dto.Series;
+import com.zee.zee5app.dto.Subscription;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidAmountException;
 import com.zee.zee5app.exception.InvalidEmailException;
@@ -134,7 +134,7 @@ public class Zee5appSpringbootApplication {
 		}
 		
 		try {
-			Optional<subscription> optional = subscriptionService.getSubscriptionById("sub001");
+			Optional<Subscription> optional = subscriptionService.getSubscriptionById("sub001");
 			if(optional.isEmpty()) {
 				System.out.println("Not found");
 			}else {
@@ -146,7 +146,7 @@ public class Zee5appSpringbootApplication {
 		} 
 		
 		try {
-			Optional<movies> optional = movieService.getMovieById("mov001");
+			Optional<Movies> optional = movieService.getMovieById("mov001");
 			if(optional.isEmpty()) {
 				System.out.println("Not found");
 			}else {
@@ -161,7 +161,7 @@ public class Zee5appSpringbootApplication {
 		} 
 		
 		try {
-			Optional<series> optional = seriesService.getSeriesById("ser002");
+			Optional<Series> optional = seriesService.getSeriesById("ser002");
 			if(optional.isEmpty()) {
 				System.out.println("Not found");
 			}else {
@@ -229,7 +229,7 @@ public class Zee5appSpringbootApplication {
 			e1.printStackTrace();
 		}
 		
-		Optional<List<subscription>> optional1;
+		Optional<List<Subscription>> optional1;
 		try {
 			optional1 = subscriptionService.getAllSubscription();
 			if (optional1.isEmpty()) {
@@ -243,7 +243,7 @@ public class Zee5appSpringbootApplication {
 			e1.printStackTrace();
 		}
 		
-		Optional<List<series>> optional3;
+		Optional<List<Series>> optional3;
 		try {
 			optional3 = seriesService.getAllSeries();
 			if (optional3.isEmpty()) {
@@ -271,7 +271,7 @@ public class Zee5appSpringbootApplication {
 			e1.printStackTrace();
 		}
 		
-		Optional<List<movies>> optional5;
+		Optional<List<Movies>> optional5;
 		try {
 			optional5 = movieService.getAllMovie();
 			if (optional5.isEmpty()) {

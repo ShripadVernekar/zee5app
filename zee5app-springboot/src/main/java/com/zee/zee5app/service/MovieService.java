@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.naming.InvalidNameException;
 
-import com.zee.zee5app.dto.movies;
+import com.zee.zee5app.dto.Movies;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.LocationNotFoundException;
@@ -13,17 +13,17 @@ import com.zee.zee5app.exception.NameNotFoundException;
 
 public interface MovieService {
 
-	public String addMovie(movies Movie);
+	public String addMovie(Movies movie);
 
-	public String updateMovie(String id, movies movie) throws IdNotFoundException;
+	public String updateMovie(String id, Movies movie) throws IdNotFoundException;
 
 	public String deleteMovie(String id) throws IdNotFoundException;
 
-	public Optional<movies> getMovieById(String id)
+	public Optional<Movies> getMovieById(String id)
 			throws IdNotFoundException, InvalidNameException, InvalidIdLengthException;
 
-	public Optional<movies> getMovieByName(String name)
+	public Optional<Movies> getMovieByName(String name)
 			throws NameNotFoundException, LocationNotFoundException, InvalidNameException, InvalidIdLengthException;
 
-	public Optional<List<movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException;
+	public Optional<List<Movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException;
 }

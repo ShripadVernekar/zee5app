@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 			if(loginRepository.existsByuserName(register.getEmail()))
 				throw new AlreadyExistsException("this record exists in DB");
 			String res = loginService.addCredentials(
-					new Login(register.getEmail(), register.getPassword(), register.getId()));
+					new Login(register.getEmail(), register.getPassword(), register2));
 			
 			if (res.equals("success")) {
 				return "Login and Register addition success";

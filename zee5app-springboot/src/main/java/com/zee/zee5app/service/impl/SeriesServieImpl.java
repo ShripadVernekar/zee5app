@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zee.zee5app.dto.series;
+import com.zee.zee5app.dto.Series;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.repository.SeriesRepository;
@@ -17,11 +17,11 @@ import com.zee.zee5app.service.SeriesService;
 public class SeriesServieImpl implements SeriesService {
 
 	@Autowired
-	private  SeriesRepository SeriesRepository;
+	private  SeriesRepository seriesRepository;
 
 	@Override
-	public String addSeries(series Series) {
-		series series2 = SeriesRepository.save(Series);
+	public String addSeries(Series series) {
+		Series series2 = seriesRepository.save(series);
 		if(series2 != null) {
 			return "success";
 		}else {
@@ -34,13 +34,13 @@ public class SeriesServieImpl implements SeriesService {
 	public String deleteSeries(String id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Optional<series> optional;
+		Optional<Series> optional;
 		try {
 			optional = this.getSeriesById(id);
 			if(optional.isEmpty()) {
 				throw new IdNotFoundException("id not found!");
 			}else {
-				SeriesRepository.deleteById(id);
+				seriesRepository.deleteById(id);
 				return "success";
 			}
 		} catch (IdNotFoundException | InvalidIdLengthException e) {
@@ -52,19 +52,19 @@ public class SeriesServieImpl implements SeriesService {
 	}
 
 	@Override
-	public Optional<series> getSeriesById(String id) throws IdNotFoundException, InvalidIdLengthException {
+	public Optional<Series> getSeriesById(String id) throws IdNotFoundException, InvalidIdLengthException {
 		// TODO Auto-generated method stub
-		return SeriesRepository.findById(id);
+		return seriesRepository.findById(id);
 	}
 
 	@Override
-	public Optional<List<series>> getAllSeries() throws InvalidIdLengthException {
+	public Optional<List<Series>> getAllSeries() throws InvalidIdLengthException {
 		// TODO Auto-generated method stub
-		return Optional.ofNullable(SeriesRepository.findAll());
+		return Optional.ofNullable(seriesRepository.findAll());
 	}
 	
 	@Override
-	public String updateSeries(String id, series Series) throws IdNotFoundException {
+	public String updateSeries(String id, Series series) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

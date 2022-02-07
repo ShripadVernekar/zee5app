@@ -3,6 +3,8 @@ package com.zee.zee5app.dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -26,7 +28,8 @@ public class Login {
 	@NotBlank
 	private String password;
 	
-	@NotBlank
-	private String regId;
+	@OneToOne
+    @JoinColumn(name = "regId")
+	private Register register;
 	
 }
