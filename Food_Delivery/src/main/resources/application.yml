@@ -3,7 +3,7 @@ spring:
      serialization:
         fail-on-empty-beans: false
   datasource:
-    url: jdbc:mysql://localhost:3306/zee5appjpa
+    url: jdbc:mysql://localhost:3306/fooddelivery
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +15,7 @@ spring:
     
     hibernate:
       naming:
-        physical-strategy: com.zee.zee5app.utils.CustomNamingStrategy
+        physical-strategy: com.learning.utils.CustomNamingStrategy
       ddl-auto: update
 server:
   port: 9005

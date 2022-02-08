@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zee.zee5app.dto.Login;
-import com.zee.zee5app.dto.EROLE;
 import com.zee.zee5app.dto.Register;
 import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
-import com.zee.zee5app.exception.InvalidNameException;
 import com.zee.zee5app.exception.InvalidPasswordException;
 import com.zee.zee5app.repository.LoginRepository;
 import com.zee.zee5app.repository.UserRepository;
@@ -31,38 +29,40 @@ public class UserServiceImpl implements UserService {
 	private LoginService loginService;
 	@Autowired
 	private LoginRepository loginRepository;
-	
+
 	@Override
 	@Transactional(rollbackFor = AlreadyExistsException.class)
-	public String addUser(Register register) throws AlreadyExistsException {
+	public Register addUser(Register register) throws AlreadyExistsException {
 
 		if (userRepoistory.existsByEmailAndContactNumber(register.getEmail(), register.getContactNumber()) == true) {
 			throw new AlreadyExistsException("this record exists in DB");
 		}
-		
 
 		Register register2 = userRepoistory.save(register);
 		if (register2 != null) {
-			
-			if(loginRepository.existsByuserName(register.getEmail()))
+
+			if (loginRepository.existsByuserName(register.getEmail()))
 				throw new AlreadyExistsException("this record exists in DB");
-			String res = loginService.addCredentials(
-					new Login(register.getEmail(), register.getPassword(), register2));
-			
+			String res = loginService.addCredentials(new Login(register.getEmail(), register.getPassword(), register2));
+
 			if (res.equals("success")) {
-				return "Login and Register addition success";
+				return register2;
 			} else {
-				return "login addition fail";
+				return null;
 			}
 		} else {
-			return "fail";
+			return null;
 		}
 	}
 
 	@Override
-	public Optional<Register> getUserById(String id) throws IdNotFoundException, InvalidIdLengthException,
-			InvalidNameException, InvalidPasswordException, javax.naming.InvalidNameException, InvalidEmailException {
-		return userRepoistory.findById(id);
+	public Register getUserById(String id) throws IdNotFoundException {
+		Optional<Register> optional = userRepoistory.findById(id);
+		if (optional.isEmpty()) {
+			throw new IdNotFoundException("Id does not exists!!");
+		} else {
+			return optional.get();
+		}
 	}
 
 	@Override
@@ -75,8 +75,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<List<Register>> getAllUserDetails() throws javax.naming.InvalidNameException,
-			InvalidIdLengthException, InvalidEmailException, InvalidPasswordException {
+	public Optional<List<Register>> getAllUserDetails() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(userRepoistory.findAll());
 	}
@@ -84,16 +83,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String deleteUserById(String id) throws IdNotFoundException {
 
+		Register optional;
 		try {
-			Optional<Register> optional = this.getUserById(id);
-			if (optional.isEmpty()) {
+			optional = this.getUserById(id);
+			if (optional == null) {
 				throw new IdNotFoundException("id not found!");
 			} else {
 				userRepoistory.deleteById(id);
-				return "success";
+				return "Record deleted!";
 			}
-		} catch (javax.naming.InvalidNameException | IdNotFoundException | InvalidIdLengthException
-				| InvalidNameException | InvalidPasswordException | InvalidEmailException e) {
+		} catch (IdNotFoundException e) {
 			e.printStackTrace();
 			throw new IdNotFoundException(e.getMessage());
 		}

@@ -8,15 +8,14 @@ import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
-import com.zee.zee5app.exception.InvalidNameException;
 import com.zee.zee5app.exception.InvalidPasswordException;
 
 public interface UserService {
 	
-	public String addUser(Register register) throws AlreadyExistsException;
+	public Register addUser(Register register) throws AlreadyExistsException;
 	public String updateUser(String id, Register register) throws IdNotFoundException;
-	public Optional<Register> getUserById(String id) throws IdNotFoundException, InvalidIdLengthException, InvalidNameException, InvalidPasswordException, javax.naming.InvalidNameException, InvalidEmailException;
+	public Register getUserById(String id) throws IdNotFoundException;
 	public Register[] getAllUsers() throws javax.naming.InvalidNameException, InvalidIdLengthException, InvalidEmailException, InvalidPasswordException;
-	public Optional<List<Register>> getAllUserDetails() throws javax.naming.InvalidNameException, InvalidIdLengthException, InvalidEmailException, InvalidPasswordException;
+	public Optional<List<Register>> getAllUserDetails() ;
 	public String deleteUserById(String id) throws IdNotFoundException;
 }

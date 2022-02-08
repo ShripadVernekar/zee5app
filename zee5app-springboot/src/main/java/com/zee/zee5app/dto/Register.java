@@ -1,8 +1,9 @@
 package com.zee.zee5app.dto;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -58,7 +61,7 @@ public class Register implements Comparable<Register> {
 	private String password;
 
 	@NotNull
-	private BigDecimal contactNumber;
+	private BigInteger contactNumber;
 
 //	private members accessed only inside class
 
@@ -72,6 +75,7 @@ public class Register implements Comparable<Register> {
 	}
 
 	@ManyToMany
+//	@JsonIgnore  //this annotation avoids recursion
 	// 3rd table
 	// registered user(regid) and role(roleid)					//this is primary key of first table
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "regId"), 
@@ -79,10 +83,12 @@ public class Register implements Comparable<Register> {
 									// above one is primary key of another table
 	private Set<Role> roles = new HashSet<>();
 
-	
+//	@JsonIgnore
 	@OneToOne(mappedBy = "register")
 	private Subscription Subscription;
 	
+//	@JsonIgnore
+//	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	@OneToOne(mappedBy = "register", cascade = CascadeType.ALL)
 	private Login login;
 	

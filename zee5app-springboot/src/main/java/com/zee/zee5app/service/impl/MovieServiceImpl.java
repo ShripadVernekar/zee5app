@@ -23,13 +23,13 @@ public class MovieServiceImpl implements MovieService {
 	private  MoviesRepository movieRepository;
 
 	@Override
-	public String addMovie(Movies movie) {
+	public Movies addMovie(Movies movie) {
 		// TODO Auto-generated method stub
-		Movies Movies = movieRepository.save(movie);
-		if (Movies != null) {
-			return "success";
+		Movies movies = movieRepository.save(movie);
+		if (movies != null) {
+			return movies;
 		} else {
-			return "fail";
+			return null;
 		}
 	}
 

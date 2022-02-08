@@ -119,93 +119,93 @@ public class Zee5appSpringbootApplication {
 			}
 		}
 */
-		
-		try {
-			Optional<Register> optional = service.getUserById("shri00261");
-			if(optional.isEmpty()) {
-				System.out.println("Not found");
-			}else {
-				System.out.println("User found "+optional.get());
-			}
-		} catch (InvalidNameException | IdNotFoundException | InvalidIdLengthException
-				| com.zee.zee5app.exception.InvalidNameException | InvalidPasswordException | InvalidEmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			Optional<Subscription> optional = subscriptionService.getSubscriptionById("sub001");
-			if(optional.isEmpty()) {
-				System.out.println("Not found");
-			}else {
-				System.out.println("Subscription found "+optional.get());
-			}
-		} catch (IdNotFoundException |InvalidAmountException | InvalidIdLengthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		try {
-			Optional<Movies> optional = movieService.getMovieById("mov001");
-			if(optional.isEmpty()) {
-				System.out.println("Not found");
-			}else {
-				System.out.println("Movie found "+optional.get());
-			}
-		} catch (IdNotFoundException |InvalidIdLengthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidNameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		try {
-			Optional<Series> optional = seriesService.getSeriesById("ser002");
-			if(optional.isEmpty()) {
-				System.out.println("Not found");
-			}else {
-				System.out.println("series found "+optional.get());
-			}
-		} catch (IdNotFoundException |InvalidIdLengthException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		try {
-			Register[] list = service.getAllUsers();
-			System.out.println(list) ;
-		} catch (InvalidNameException | InvalidIdLengthException | InvalidEmailException | InvalidPasswordException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String res;
-		
-		try {
-			res = service.deleteUserById("shri000261");
-			System.out.println("User deletion :"+res);
-		} catch (IdNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		try {
-			res = subscriptionService.deleteSubscription("sub001");
-			System.out.println("Subscription deletion :"+res);
-		} catch (IdNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
-		try {
-			res = movieService.deleteMovie("mov001");
-			System.out.println("Movie deletion :"+res);
-		} catch (IdNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
+//		
+//		try {
+//			Optional<Register> optional = service.getUserById("shri00261");
+//			if(optional.isEmpty()) {
+//				System.out.println("Not found");
+//			}else {
+//				System.out.println("User found "+optional.get());
+//			}
+//		} catch (InvalidNameException | IdNotFoundException | InvalidIdLengthException
+//				| com.zee.zee5app.exception.InvalidNameException | InvalidPasswordException | InvalidEmailException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		try {
+//			Optional<Subscription> optional = subscriptionService.getSubscriptionById("sub001");
+//			if(optional.isEmpty()) {
+//				System.out.println("Not found");
+//			}else {
+//				System.out.println("Subscription found "+optional.get());
+//			}
+//		} catch (IdNotFoundException |InvalidAmountException | InvalidIdLengthException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//		try {
+//			Optional<Movies> optional = movieService.getMovieById("mov001");
+//			if(optional.isEmpty()) {
+//				System.out.println("Not found");
+//			}else {
+//				System.out.println("Movie found "+optional.get());
+//			}
+//		} catch (IdNotFoundException |InvalidIdLengthException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InvalidNameException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//		try {
+//			Optional<Series> optional = seriesService.getSeriesById("ser002");
+//			if(optional.isEmpty()) {
+//				System.out.println("Not found");
+//			}else {
+//				System.out.println("series found "+optional.get());
+//			}
+//		} catch (IdNotFoundException |InvalidIdLengthException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+//		
+//		try {
+//			Register[] list = service.getAllUsers();
+//			System.out.println(list) ;
+//		} catch (InvalidNameException | InvalidIdLengthException | InvalidEmailException | InvalidPasswordException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		String res;
+//		
+//		try {
+//			res = service.deleteUserById("shri000261");
+//			System.out.println("User deletion :"+res);
+//		} catch (IdNotFoundException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+//		
+//		try {
+//			res = subscriptionService.deleteSubscription("sub001");
+//			System.out.println("Subscription deletion :"+res);
+//		} catch (IdNotFoundException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+//		
+//		try {
+//			res = movieService.deleteMovie("mov001");
+//			System.out.println("Movie deletion :"+res);
+//		} catch (IdNotFoundException e2) {
+//			// TODO Auto-generated catch block
+//			e2.printStackTrace();
+//		}
+	/*	
 		try {
 			res = seriesService.deleteSeries("ser001");
 			System.out.println("Series deletion :"+res);
@@ -284,7 +284,7 @@ public class Zee5appSpringbootApplication {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		*/
 		applicationContext.close();
 
 	}
