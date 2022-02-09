@@ -3,36 +3,65 @@ package com.zee.zee5app.controlleradvice;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
+import com.zee.zee5app.exception.apierror.ApiError;
 
 @ControllerAdvice
-public class ExceptionAdvice {
+public class ExceptionAdvice extends ResponseEntityExceptionHandler{
 // this class shd be used when any userdefined exceptions is called through out all the controller
-	
+
 	@ExceptionHandler(AlreadyExistsException.class)
-	public ResponseEntity<?> alreadyExistsExceptionHandler(){
+	public ResponseEntity<?> alreadyExistsExceptionHandler() {
 		Map<String, String> hashMap = new HashMap<>();
 		hashMap.put("message", "Record already exists!!");
-		return ResponseEntity.badRequest().body(hashMap);	
+		return ResponseEntity.badRequest().body(hashMap);
 	}
-	
+
 	@ExceptionHandler(IdNotFoundException.class)
-	public ResponseEntity<?> idNotFoundExceptionHandler(Exception e){
+	public ResponseEntity<?> idNotFoundExceptionHandler(Exception e) {
 		Map<String, String> hashMap = new HashMap<>();
-		hashMap.put("message", "Exception :" +e.getMessage());
-		return ResponseEntity.badRequest().body(hashMap);	
+		hashMap.put("message", "Exception :" + e.getMessage());
+		return ResponseEntity.badRequest().body(hashMap);
+	}
+
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<?> exceptionHandler(Exception e){
+//		Map<String, String> hashMap = new HashMap<>();
+//		hashMap.put("message", "Unknown Exception : "+ e.getMessage());
+//		return ResponseEntity.badRequest().body(hashMap);	
+//	}
+	
+	
+
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage("Validation Error!");
+		apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
+		apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
+		return buildReponseEntity(apiError);
+	}
+
+	private ResponseEntity<Object> buildReponseEntity(ApiError apiError) {
+		// to get which RE object ==> if I what to make any changes into our existing
+		// object then in every return we have to do the change
+		
+		// instead of that if we will use buildRE method=> Ease of maintainence
+		return new ResponseEntity<>(apiError, apiError.getHttpStatus());
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> exceptionHandler(Exception e){
-		Map<String, String> hashMap = new HashMap<>();
-		hashMap.put("message", "Unknown Exception : "+ e.getMessage());
-		return ResponseEntity.badRequest().body(hashMap);	
-	}
-	
+//	protected ResponseEntity<?> handle
+
 }
