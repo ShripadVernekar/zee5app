@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-@Aspect // container where u will hold ur app code
+@Aspect // container where u will hold your app code
 public class UserServiceAspect {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
