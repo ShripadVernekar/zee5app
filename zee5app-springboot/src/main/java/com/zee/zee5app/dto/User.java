@@ -7,12 +7,16 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,12 +41,15 @@ import lombok.ToString;
 // ORM mapping purpose
 @Entity // entity class is used for ORM
 //customize table name
-@Table(name = "register")
-public class Register implements Comparable<Register> {
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = "username"),
+												@UniqueConstraint(columnNames = "email") })
+
+public class User implements Comparable<User> {
 
 	@Id
 	@Column(name = "regId") // here camel case is converted to snake case(i.e reg_id)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@Size(max = 50)
 	@NotBlank
@@ -51,6 +58,10 @@ public class Register implements Comparable<Register> {
 	@Size(max = 50)
 	@NotBlank
 	private String lastName;
+
+	@Size(max = 50)
+	@NotBlank
+	private String username;
 
 	@Size(max = 50)
 	@Email
@@ -66,7 +77,7 @@ public class Register implements Comparable<Register> {
 //	private members accessed only inside class
 
 	@Override
-	public int compareTo(Register o) {
+	public int compareTo(User o) {
 		// TODO Auto-generated method stub
 
 		// return this.id.compareTo(o.getId()); // ascending order
@@ -74,24 +85,23 @@ public class Register implements Comparable<Register> {
 		return o.id.compareTo(this.getId()); // descending order
 	}
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 //	@JsonIgnore  //this annotation avoids recursion
 	// 3rd table
-	// registered user(regid) and role(roleid)					//this is primary key of first table
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "regId"), 
-	inverseJoinColumns = @JoinColumn(name = "roleId"))
-									// above one is primary key of another table
+	// registered user(regid) and role(roleid) //this is primary key of first table
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "regId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+	// above one is primary key of another table
 	private Set<Role> roles = new HashSet<>();
 
 //	@JsonIgnore
 	@OneToOne(mappedBy = "register")
 	private Subscription Subscription;
-	
+
 //	@JsonIgnore
 //	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	@OneToOne(mappedBy = "register", cascade = CascadeType.ALL)
 	private Login login;
-	
+
 //	@Override
 //	public int hashCode() {
 //		return Objects.hash(email, firstName, id, lastName, password);

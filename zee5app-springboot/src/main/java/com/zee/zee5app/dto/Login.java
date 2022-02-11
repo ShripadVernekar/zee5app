@@ -35,6 +35,6 @@ public class Login {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JsonProperty(access = Access.WRITE_ONLY)
     @JoinColumn(name = "regId")
-	private Register register;
+	private User register;
 	
 }

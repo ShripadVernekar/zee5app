@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.naming.InvalidNameException;
 
 import com.zee.zee5app.dto.Movies;
-import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.dto.User;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidIdLengthException;
 import com.zee.zee5app.exception.LocationNotFoundException;

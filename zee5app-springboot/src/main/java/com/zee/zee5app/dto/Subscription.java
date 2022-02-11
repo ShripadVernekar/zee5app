@@ -67,6 +67,6 @@ public class Subscription implements Comparable<Subscription>{
 	@OneToOne(cascade = CascadeType.ALL)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@JoinColumn(name = "regid")
-	private Register register;
+	private User register;
 	
 }

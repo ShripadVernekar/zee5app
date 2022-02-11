@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zee.zee5app.dto.Login;
-import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.dto.User;
 import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
 import com.zee.zee5app.exception.InvalidEmailException;
@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(rollbackFor = AlreadyExistsException.class)
-	public Register addUser(Register register) throws AlreadyExistsException {
+	public User addUser(User register) throws AlreadyExistsException {
 
 		if (userRepoistory.existsByEmailAndContactNumber(register.getEmail(), register.getContactNumber()) == true) {
 			throw new AlreadyExistsException("this record exists in DB");
 		}
 
-		Register register2 = userRepoistory.save(register);
+		User register2 = userRepoistory.save(register);
 		if (register2 != null) {
 
 			if (loginRepository.existsByuserName(register.getEmail()))
@@ -56,8 +56,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Register getUserById(String id) throws IdNotFoundException {
-		Optional<Register> optional = userRepoistory.findById(id);
+	public User getUserById(Long id) throws IdNotFoundException {
+		Optional<User> optional = userRepoistory.findById(id);
 		if (optional.isEmpty()) {
 			throw new IdNotFoundException("Id does not exists!!");
 		} else {
@@ -66,24 +66,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Register[] getAllUsers() throws javax.naming.InvalidNameException, InvalidIdLengthException,
+	public User[] getAllUsers() throws javax.naming.InvalidNameException, InvalidIdLengthException,
 			InvalidEmailException, InvalidPasswordException {
 		// TODO Auto-generated method stub
-		List<Register> list = userRepoistory.findAll();
-		Register[] arr = new Register[list.size()];
+		List<User> list = userRepoistory.findAll();
+		User[] arr = new User[list.size()];
 		return list.toArray(arr);
 	}
 
 	@Override
-	public Optional<List<Register>> getAllUserDetails() {
+	public Optional<List<User>> getAllUserDetails() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(userRepoistory.findAll());
 	}
 
 	@Override
-	public String deleteUserById(String id) throws IdNotFoundException {
+	public String deleteUserById(Long id) throws IdNotFoundException {
 
-		Register optional;
+		User optional;
 		try {
 			optional = this.getUserById(id);
 			if (optional == null) {
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String updateUser(String id, Register register) throws IdNotFoundException {
+	public String updateUser(Long id, User register) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

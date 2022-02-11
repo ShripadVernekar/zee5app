@@ -3,6 +3,7 @@ package com.zee.zee5app.aop;
 //import org.aopalliance.intercept.Joinpoint;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,9 +24,16 @@ public class UserServiceAspect {
 	public void springPointCutExp() {
 
 	}
+	
+	@Pointcut("within(com.zee.zee5app.controller..*) "
+			+ "|| within(com.zee.zee5app.service.impl..*) ")
+
+	public void springPointCutExp2() {
+
+	}
 
 	// for logging purpose
-	@AfterThrowing(pointcut = "springPointCutExp()", throwing = "e")
+	@AfterThrowing(pointcut = "springPointCutExp() && springPointCutExp2()", throwing = "e")
 	public void logAfterThrowingException(JoinPoint joinpoint, Throwable e) {
 		log.error("exception {}.{}() with cause {}", joinpoint.getSignature().getDeclaringTypeName(),
 				joinpoint.getSignature().getName(), e.getCause() != null ? e.getCause() : "NULL");
@@ -36,6 +44,11 @@ public class UserServiceAspect {
 		// TODO Auto-generated method stub
 		System.out.println(joinpoint);
 		System.out.println("hello");
-
 	}
+	
+//	@Around("beforeAllServieMethods()")
+//	public void aroundEx() {
+//		System.out.println("Hello from around");
+//	}
+	
 }

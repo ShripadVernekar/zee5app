@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zee.zee5app.dto.Register;
+import com.zee.zee5app.dto.User;
 import com.zee.zee5app.exception.AlreadyExistsException;
 import com.zee.zee5app.exception.IdNotFoundException;
+import com.zee.zee5app.payload.response.MessageResponse;
 import com.zee.zee5app.service.UserService;
 
 @RestController
@@ -40,9 +41,9 @@ public class UserController {
 	UserService userService;
 
 	@PostMapping("/addUser")
-	public ResponseEntity<?> addUser(@Valid @RequestBody Register register) throws AlreadyExistsException {
+	public ResponseEntity<?> addUser(@Valid @RequestBody User register) throws AlreadyExistsException {
 
-		Register result;
+		User result;
 
 		result = userService.addUser(register);
 		System.out.println(result);
@@ -51,19 +52,19 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getUserById(@PathVariable("id") String id) throws IdNotFoundException{
-		Register register = userService.getUserById(id);
+	public ResponseEntity<?> getUserById(@PathVariable("id") Long id) throws IdNotFoundException{
+		User register = userService.getUserById(id);
 		return ResponseEntity.ok(register);
 	}
 
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllUsers() {
-		Optional<List<Register>> optional = userService.getAllUserDetails();
+		Optional<List<User>> optional = userService.getAllUserDetails();
 		
 		if(optional.isEmpty()) {
-			Map<String, String> hashMap = new HashMap<>();
-			hashMap.put("message", "No record found");
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+//			Map<String, String> hashMap = new HashMap<>();
+//			hashMap.put("message", "No record found");
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new MessageResponse("No record found"));
 		}
 		return ResponseEntity.ok(optional.get());
 	}
