@@ -27,7 +27,6 @@ public class UserServiceAspect {
 	
 	@Pointcut("within(com.zee.zee5app.controller..*) "
 			+ "|| within(com.zee.zee5app.service.impl..*) ")
-
 	public void springPointCutExp2() {
 
 	}
@@ -35,13 +34,15 @@ public class UserServiceAspect {
 	// for logging purpose
 	@AfterThrowing(pointcut = "springPointCutExp() && springPointCutExp2()", throwing = "e")
 	public void logAfterThrowingException(JoinPoint joinpoint, Throwable e) {
+		
 		log.error("exception {}.{}() with cause {}", joinpoint.getSignature().getDeclaringTypeName(),
-				joinpoint.getSignature().getName(), e.getCause() != null ? e.getCause() : "NULL");
+													 joinpoint.getSignature().getName(), 
+													 e.getCause() != null ? e.getCause() : "NULL");
 	}
 
 	@Before(value = "execution(* com.zee.zee5app.service.impl.*.*(..))")
 	private void beforeAllServieMethods(JoinPoint joinpoint) {
-		// TODO Auto-generated method stub
+
 		System.out.println(joinpoint);
 		System.out.println("hello");
 	}

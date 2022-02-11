@@ -68,8 +68,8 @@ public class ApiError {
 	}
 
 	private void addValidationError(FieldError fieldError) {
-		this.addValidationError(fieldError.getObjectName(), fieldError.getField(), fieldError.getRejectedValue(),
-				fieldError.getDefaultMessage());
+		this.addValidationError(fieldError.getObjectName(), fieldError.getField(), 
+								fieldError.getRejectedValue(),fieldError.getDefaultMessage());
 	}
 
 	public void addValidationErrors(List<FieldError> fieldErrors) {
@@ -88,9 +88,9 @@ public class ApiError {
 
 	public void addValidationError(ConstraintViolation<?> cv) {
 		this.addValidationError(cv.getRootBeanClass().getName(),
-				((PathImpl) cv.getPropertyPath()).getLeafNode().asString(), 
-				cv.getInvalidValue(), 
-				cv.getMessage());
+								((PathImpl) cv.getPropertyPath()).getLeafNode().asString(), 
+								cv.getInvalidValue(), 
+								cv.getMessage());
 	}
 
 	public void addValidationErrors(Set<ConstraintViolation<?>> cv) {

@@ -12,11 +12,12 @@ import com.zee.zee5app.dto.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	//custom jpa method // we will not write any def and only just declaration
-//	Boolean existsByEmail(String email);
 //	Boolean existsByContactNumber(BigDecimal contactNumber);
 	//checking both condition using AND
 	// this can also be done for other conditions like OR
+	Boolean existsByEmail(String email);
 	Boolean existsByEmailAndContactNumber(String email,BigInteger contactNumber);
+	Boolean existsByUsername(String username);
 	Optional<User> findByUsername(String username);
 	
 }

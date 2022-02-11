@@ -36,13 +36,13 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 // ORM mapping purpose
 @Entity // entity class is used for ORM
 //customize table name
 @Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = "username"),
-												@UniqueConstraint(columnNames = "email") })
+											@UniqueConstraint(columnNames = "email") })
 
 public class User implements Comparable<User> {
 
@@ -71,14 +71,21 @@ public class User implements Comparable<User> {
 	@NotBlank
 	private String password;
 
-	@NotNull
 	private BigInteger contactNumber;
 
+	public User(String username, String firstName, String lastName,String email, String password) {
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+	}
+	
+	
 //	private members accessed only inside class
 
 	@Override
 	public int compareTo(User o) {
-		// TODO Auto-generated method stub
 
 		// return this.id.compareTo(o.getId()); // ascending order
 

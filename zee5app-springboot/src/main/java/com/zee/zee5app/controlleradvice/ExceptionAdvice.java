@@ -34,14 +34,6 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler{
 		return ResponseEntity.badRequest().body(hashMap);
 	}
 
-//	@ExceptionHandler(Exception.class)
-//	public ResponseEntity<?> exceptionHandler(Exception e){
-//		Map<String, String> hashMap = new HashMap<>();
-//		hashMap.put("message", "Unknown Exception : "+ e.getMessage());
-//		return ResponseEntity.badRequest().body(hashMap);	
-//	}
-	
-	
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
@@ -58,10 +50,15 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler{
 		// to get which RE object ==> if I what to make any changes into our existing
 		// object then in every return we have to do the change
 		
-		// instead of that if we will use buildRE method=> Ease of maintainence
+		// instead of that if we will use buildRE method=> Ease of maintenance
 		return new ResponseEntity<>(apiError, apiError.getHttpStatus());
 	}
 	
-//	protected ResponseEntity<?> handle
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<?> exceptionHandler(Exception e){
+//		Map<String, String> hashMap = new HashMap<>();
+//		hashMap.put("message", "Unknown Exception : "+ e.getMessage());
+//		return ResponseEntity.badRequest().body(hashMap);	
+//	}
 
 }
