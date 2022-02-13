@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.zee.zee5app.dto.Subscription;
 
 @Repository
-public interface SubscriptionRepository extends JpaRepository<Subscription, String> {
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
 }

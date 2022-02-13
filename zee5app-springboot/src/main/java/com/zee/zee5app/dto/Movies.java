@@ -1,7 +1,12 @@
 package com.zee.zee5app.dto;
 
+import java.math.BigInteger;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -21,15 +26,16 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "movieName") }, name = "movies") // can be done this
 
 public class Movies implements Comparable<Movies> {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "movId")
-	private String id;
+	private Long id;
 
 	@NotBlank
 	private String movieName;
@@ -60,6 +66,19 @@ public class Movies implements Comparable<Movies> {
 	@Override
 	public int compareTo(Movies o) {
 		return o.id.compareTo(this.getId());
+	}
+
+	public Movies(String movieName, int ageLimit, String genre, String language, String trailer, String cast,
+			int length, String releaseDate) {
+		// TODO Auto-generated constructor stub
+		this.movieName = movieName;
+		this.ageLimit = ageLimit;
+		this.genre = genre;
+		this.language = language;
+		this.trailer = trailer;
+		this.cast = cast;
+		this.length = length;
+		this.releaseDate = releaseDate;
 	}
 
 }

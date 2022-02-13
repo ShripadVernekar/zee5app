@@ -31,7 +31,7 @@ public class SeriesServieImpl implements SeriesService {
 
 	
 	@Override
-	public String deleteSeries(String id) throws IdNotFoundException {
+	public String deleteSeries(Long id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		
 		Optional<Series> optional;
@@ -52,19 +52,19 @@ public class SeriesServieImpl implements SeriesService {
 	}
 
 	@Override
-	public Optional<Series> getSeriesById(String id) throws IdNotFoundException, InvalidIdLengthException {
+	public Optional<Series> getSeriesById(Long id) throws IdNotFoundException, InvalidIdLengthException {
 		// TODO Auto-generated method stub
 		return seriesRepository.findById(id);
 	}
 
 	@Override
-	public Optional<List<Series>> getAllSeries() throws InvalidIdLengthException {
+	public Optional<List<Series>> getAllSeries()  {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(seriesRepository.findAll());
 	}
 	
 	@Override
-	public String updateSeries(String id, Series series) throws IdNotFoundException {
+	public String updateSeries(Long id, Series series) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

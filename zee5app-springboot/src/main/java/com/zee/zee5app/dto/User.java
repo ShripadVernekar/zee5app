@@ -36,7 +36,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-//@NoArgsConstructor
+@NoArgsConstructor
 //@AllArgsConstructor
 // ORM mapping purpose
 @Entity // entity class is used for ORM
@@ -73,12 +73,12 @@ public class User implements Comparable<User> {
 
 	private BigInteger contactNumber;
 
-	public User(String username, String firstName, String lastName,String email, String password) {
-		this.username = username;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
+	 public User(String username, String email, String password, String firstName, String lastName) {
+		    this.username = username;
+		    this.email = email;
+		    this.password = password;
+		    this.firstName = firstName;
+		    this.lastName = lastName;
 	}
 	
 	
@@ -99,11 +99,12 @@ public class User implements Comparable<User> {
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "regId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
 	// above one is primary key of another table
 	private Set<Role> roles = new HashSet<>();
-
+	
+/*
 //	@JsonIgnore
 	@OneToOne(mappedBy = "register")
 	private Subscription Subscription;
-
+*/
 //	@JsonIgnore
 //	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	@OneToOne(mappedBy = "register", cascade = CascadeType.ALL)

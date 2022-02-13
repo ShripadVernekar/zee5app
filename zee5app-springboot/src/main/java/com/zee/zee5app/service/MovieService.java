@@ -16,15 +16,15 @@ public interface MovieService {
 
 	public Movies addMovie(Movies movie);
 
-	public String updateMovie(String id, Movies movie) throws IdNotFoundException;
+	public String updateMovie(Long id, Movies movie) throws IdNotFoundException;
 
-	public String deleteMovie(String id) throws IdNotFoundException;
+	public String deleteMovie(Long id) throws IdNotFoundException;
 
-	public Optional<Movies> getMovieById(String id)
+	public Optional<Movies> getMovieById(Long id)
 			throws IdNotFoundException, InvalidNameException, InvalidIdLengthException;
 
 	public Optional<Movies> getMovieByName(String name)
 			throws NameNotFoundException, LocationNotFoundException, InvalidNameException, InvalidIdLengthException;
 
-	public Optional<List<Movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException;
+	public Optional<List<Movies>> getAllMovie() ;
 }

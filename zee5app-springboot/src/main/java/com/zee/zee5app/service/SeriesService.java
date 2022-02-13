@@ -11,11 +11,11 @@ public interface SeriesService {
 
 	public String addSeries(Series series);
 
-	public String updateSeries(String id, Series series) throws IdNotFoundException;
+	public String updateSeries(Long id, Series series) throws IdNotFoundException;
 
-	public String deleteSeries(String id) throws IdNotFoundException;
+	public String deleteSeries(Long id) throws IdNotFoundException;
 
-	public Optional<Series> getSeriesById(String id) throws IdNotFoundException, InvalidIdLengthException;
+	public Optional<Series> getSeriesById(Long id) throws IdNotFoundException, InvalidIdLengthException;
 
-	public Optional<List<Series>> getAllSeries() throws InvalidIdLengthException;
+	public Optional<List<Series>> getAllSeries();
 }

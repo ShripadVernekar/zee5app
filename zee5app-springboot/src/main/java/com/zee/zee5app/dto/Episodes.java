@@ -2,6 +2,8 @@ package com.zee.zee5app.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -23,14 +25,15 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "episodeName") })
 public class Episodes {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "epiId")
-	private String epiId;
+	private Long epiId;
 
 	@NotBlank
 	private String episodeName;
@@ -43,6 +46,17 @@ public class Episodes {
 
 	@NotBlank
 	private String trailer;
+
+	
+	
+	public Episodes(String episodeName, int epiLength, String location,	String trailer) {
+		this.episodeName = episodeName;
+		this.epiLength = epiLength;
+		this.location = location;
+		this.trailer = trailer;
+	}
+
+
 
 	@ManyToOne
 	// this episode table should have fk.seriesid

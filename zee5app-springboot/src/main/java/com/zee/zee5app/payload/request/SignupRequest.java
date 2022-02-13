@@ -13,15 +13,15 @@ public class SignupRequest {
 	private String username;
 
 	@NotBlank
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 50)
 	private String firstName;
 
 	@NotBlank
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 50)
 	private String lastName;
 
 	@NotBlank
-	@Size(max = 50)
+	@Size(max = 60)
 	@Email
 	private String email;
 

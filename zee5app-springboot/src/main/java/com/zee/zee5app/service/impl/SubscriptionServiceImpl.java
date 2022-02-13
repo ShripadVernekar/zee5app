@@ -31,7 +31,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public String deleteSubscription(String id) throws IdNotFoundException {
+	public String deleteSubscription(Long id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		Optional<Subscription> optional;
 		try {
@@ -51,21 +51,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Optional<Subscription> getSubscriptionById(String id)
+	public Optional<Subscription> getSubscriptionById(Long id)
 			throws IdNotFoundException, InvalidIdLengthException, InvalidAmountException {
 		// TODO Auto-generated method stub
 		return subscriptionRepository.findById(id);
 	}
 
 	@Override
-	public Optional<List<Subscription>> getAllSubscription()
-			throws InvalidIdLengthException, InvalidAmountException {
+	public Optional<List<Subscription>> getAllSubscription() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(subscriptionRepository.findAll());
 	}
 
 	@Override
-	public String updateSubscription(String id, Subscription subscription) throws IdNotFoundException {
+	public String updateSubscription(Long id, Subscription subscription) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

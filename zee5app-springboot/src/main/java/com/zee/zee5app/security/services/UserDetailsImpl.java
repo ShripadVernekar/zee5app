@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zee.zee5app.dto.User;
 
+import lombok.Data;
+
+@Data
 public class UserDetailsImpl implements UserDetails {
 
 	private Long id;
@@ -54,7 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return null;
+		return authorities;
 	}
 
 	@Override

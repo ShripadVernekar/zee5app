@@ -27,7 +27,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity // entity class is used for ORM
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = "seriesName") })
 
@@ -35,7 +35,7 @@ public class Series implements Comparable<Series> {
 
 	@Id
 	@Column(name = "seriesId")
-	private String id;
+	private Long id;
 
 	@Max(value = 70)
 	private int ageLimit;
@@ -61,10 +61,28 @@ public class Series implements Comparable<Series> {
 	@Min(value = 1)
 	private int noOfEpisodes;
 
+
+	public Series( int ageLimit,  String seriesName,  String genre,
+			 String language, String trailer,  String cast,
+			int noOfEpisodes, String releaseDate, List<Episodes> episodes) {
+		
+		this.ageLimit = ageLimit;
+		this.seriesName = seriesName;
+		this.genre = genre;
+		this.language = language;
+		this.trailer = trailer;
+		this.cast = cast;
+		this.noOfEpisodes = noOfEpisodes;
+		this.releaseDate = releaseDate;
+		this.episodes = episodes;
+	}
+
 	@Override
 	public int compareTo(Series o) {
 		return o.id.compareTo(this.getId());
 	}
+	
+
 
 	@OneToMany(mappedBy = "Series", cascade = CascadeType.ALL)
 	private List<Episodes> episodes = new ArrayList<>();

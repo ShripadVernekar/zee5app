@@ -34,7 +34,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public String deleteMovie(String id) throws IdNotFoundException {
+	public String deleteMovie(Long id) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		Optional<Movies> optional;
 		try {
@@ -53,7 +53,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public Optional<Movies> getMovieById(String id)
+	public Optional<Movies> getMovieById(Long id)
 			throws IdNotFoundException, InvalidNameException, InvalidIdLengthException {
 		// TODO Auto-generated method stub
 		return movieRepository.findById(id);
@@ -68,13 +68,13 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public Optional<List<Movies>> getAllMovie() throws InvalidNameException, InvalidIdLengthException {
+	public Optional<List<Movies>> getAllMovie() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(movieRepository.findAll());
 	}
 
 	@Override
-	public String updateMovie(String id, Movies movie) throws IdNotFoundException {
+	public String updateMovie(Long id, Movies movie) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

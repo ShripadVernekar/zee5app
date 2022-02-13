@@ -30,7 +30,7 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public String deleteEpisodeById(String id) throws IdNotFoundException, InvalidIdLengthException {
+	public String deleteEpisodeById(Long id) throws IdNotFoundException, InvalidIdLengthException {
 		// TODO Auto-generated method stub
 		Optional<Episodes> optional;
 		try {
@@ -49,13 +49,13 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public Optional<Episodes> getEpisodeById(String id) throws IdNotFoundException, InvalidIdLengthException {
+	public Optional<Episodes> getEpisodeById(Long id) throws IdNotFoundException, InvalidIdLengthException {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(episodesRepository.getById(id));
 	}
 
 	@Override
-	public Optional<List<Episodes>> getAllEpisodeList() throws InvalidIdLengthException {
+	public Optional<List<Episodes>> getAllEpisodeList() {
 		// TODO Auto-generated method stub
 		return Optional.ofNullable(episodesRepository.findAll());
 	}
@@ -69,7 +69,7 @@ public class EpisodeServiceImpl implements EpisodeService {
 	}
 
 	@Override
-	public String updateEpisodeById(String id, Episodes episode) throws IdNotFoundException {
+	public String updateEpisodeById(Long id, Episodes episode) throws IdNotFoundException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -56,20 +56,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	
 	@Override
-	public void configure(HttpSecurity http) throws Exception {
+	protected void configure(HttpSecurity http) throws Exception {
 		// TODO Auto-generated method stub
 	    //to enable cross origin domain cors is used ... Cross-Site Request Forgery (CSRF)
 		
-		http.cors().and()
-		.csrf().disable()
-		.exceptionHandling()
-		.authenticationEntryPoint(unauthorizedHandler).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.authorizeHttpRequests().antMatchers("/api/auth/**").permitAll()
-		.antMatchers("/api/test/**").permitAll().anyRequest().authenticated();
+		http.cors().and().csrf().disable()
+	      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+	      .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+	      .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+	      .antMatchers("/api/test/**").permitAll()
+	      .anyRequest().authenticated();
 		
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-		
+		 http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);		
 	}
 	
 }
