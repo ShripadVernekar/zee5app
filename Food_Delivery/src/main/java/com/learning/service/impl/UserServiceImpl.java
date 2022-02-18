@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.dto.Login;
 import com.learning.dto.Register;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
 	
 
 	@Override
+	@Transactional(rollbackFor = AlreadyExistsException.class)
 	public Register addUser(Register register) throws AlreadyExistsException {
 		// TODO Auto-generated method stub
 		if (userRepoistory.existsByEmail(register.getEmail()) == true) {
@@ -38,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
 			if (loginRepository.existsByuserName(register.getEmail()))
 				throw new AlreadyExistsException("this record exists in DB");
-			String res = loginService.addCredentials(new Login(register.getEmail(), register.getPassword()));
+			String res = loginService.addCredentials(new Login(register.getEmail(), register.getPassword(),register2));
 
 			if (res.equals("success")) {
 				return register2;
@@ -99,19 +101,5 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	public String authenticate(Login login) throws AlreadyExistsException, IdNotFoundException {
-		// TODO Auto-generated method stub
-		if (userRepoistory.existsByEmail(login.getUserName()) == true) {
-				Optional<Register> optional = userRepoistory.findByEmail(login.getUserName());
-				Register register = optional.get();
-				if(login.getPassword().equals(register.getPassword())) {
-					return "success";
-				}else {
-					return "fail";
-				}
-		}
-		return "fail";
-	}
 
 }

@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +41,7 @@ import com.zee.zee5app.security.jwt.JwtUtils;
 import com.zee.zee5app.security.services.UserDetailsImpl;
 import com.zee.zee5app.service.UserService;
 
+@CrossOrigin("*")
 @RestController
 //REST API: RESPONSE wherever we have to share the response that method  must be marked with @ResponseBody
 
@@ -72,7 +74,7 @@ public class UserController {
 		Authentication authentication = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername()
 						, loginRequest.getPassword()));
-		
+		System.out.println(loginRequest);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateToken(authentication);
 		UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authentication.getPrincipal();

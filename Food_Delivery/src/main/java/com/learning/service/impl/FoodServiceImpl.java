@@ -1,5 +1,6 @@
 package com.learning.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +63,9 @@ public class FoodServiceImpl implements FoodService {
 	}
 	
 	@Override
-	public Food getFoodByType(Enum<FOODTYPE> type) throws TypeNotFoundException {
-		// TODO Auto-generated method stub
-		Optional<Food> optional = foodRepository.findByfoodType(type);
-		if (optional.isEmpty()) {
-			throw new TypeNotFoundException("Sorry Food Type Not Found");
-		} else {
-			return optional.get();
-		}
+	public Optional<List<Food>> getFoodByType(FOODTYPE type) throws TypeNotFoundException {
+		
+		return Optional.ofNullable(foodRepository.findAllByfoodType(type));
 	}
 
 	@Override

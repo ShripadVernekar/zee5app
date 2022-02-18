@@ -3,20 +3,22 @@ package com.learning.dto;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,9 +30,10 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity 
-@Table(name = "users")
+
+@Entity
+@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = "email") })
+
 public class Register {
 
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,11 +56,20 @@ public class Register {
 	@NotBlank
 	private String address;
 
-	// many to many relation in order that many users can order many food
-	@ManyToMany
-	@JoinTable(name = "orders", joinColumns = @JoinColumn(name = "regId"), 
-	inverseJoinColumns = @JoinColumn(name = "id"))
-	private Set<Food> orders = new HashSet<>();
+	public Register(String name, String email, String password, String address) {
 
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "regId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+	private Set<Role> roles = new HashSet<>();
 	
+	@OneToOne(mappedBy = "register", cascade = CascadeType.ALL)
+	private Login login;
+
+
 }

@@ -1,4 +1,4 @@
-package com.zee.zee5app.exception.apierror;
+package com.learning.exception.apierror;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import lombok.Data;
 
 @Data
 public class ApiError {
-// class to provide collective info regarding error/errors
 
 	private HttpStatus httpStatus;
 
@@ -32,8 +31,6 @@ public class ApiError {
 	private String debugMessage;
 
 	private ApiError() {
-		// @ the time of calling the method whatever the date time value are there
-		// it will provide it.
 		timeStamp = LocalDateTime.now();
 	}
 
@@ -49,8 +46,7 @@ public class ApiError {
 		this.debugMessage = ex.getLocalizedMessage();
 	}
 
-	// every field validation in suberror
-	// create and add it into subError
+
 	private void addSubError(ApiSubError apiSubError) {
 		if (subErrors == null) {
 			subErrors = new ArrayList<>();
@@ -72,8 +68,6 @@ public class ApiError {
 	}
 
 	public void addValidationErrors(List<FieldError> fieldErrors) {
-		// both below methods are same
-		// fieldErrors.forEach(this::addValidationError);
 		fieldErrors.forEach(e -> this.addValidationError(e));
 	}
 
@@ -95,5 +89,4 @@ public class ApiError {
 	public void addValidationErrors(Set<ConstraintViolation<?>> cv) {
 		cv.forEach(e -> this.addValidationError(e));
 	}
-	
 }

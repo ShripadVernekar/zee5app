@@ -16,5 +16,5 @@ public interface FoodService {
 	public Food getFoodById(Integer id) throws IdNotFoundException;
 	public Optional<List<Food>> getAllFoodDetails() ;
 	public String deleteFoodById(Integer id) throws IdNotFoundException;
-	public Food getFoodByType(Enum<FOODTYPE> type) throws TypeNotFoundException ;
+	public Optional<List<Food>> getFoodByType(FOODTYPE type) throws TypeNotFoundException ;
 }

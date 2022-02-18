@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,9 +25,11 @@ import com.zee.zee5app.payload.response.MessageResponse;
 import com.zee.zee5app.repository.SeriesRepository;
 import com.zee.zee5app.service.SeriesService;
 
+
+@CrossOrigin("*")
 @RestController
 
-@RequestMapping("/series")
+@RequestMapping("/api/series")
 public class SeriesController {
 	
 	@Autowired
@@ -38,13 +41,14 @@ public class SeriesController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/addSeries")
 	public ResponseEntity<?> addSeries(@Valid @RequestBody SeriesRequest seriesRequest){
-
+		System.out.println("======================="+seriesRequest);
 		if(seriesRepository.existsBySeriesName(seriesRequest.getSeriesName())) {
 			return ResponseEntity.badRequest()
 					 .body(new MessageResponse("Error: Series with name: "+seriesRequest.getSeriesName()+" exists!"));
 		}
 		
 		List<Episodes> episodes = seriesRequest.getEpisodes();		
+		
 		Series series = new Series(seriesRequest.getAgeLimit(), seriesRequest.getSeriesName(), 
 				seriesRequest.getGenre(), seriesRequest.getLanguage(),
 				seriesRequest.getTrailer(), seriesRequest.getCast(), 
